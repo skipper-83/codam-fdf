@@ -36,6 +36,8 @@ $(LIB)			:
 				@$(MAKE) -C $(LIBDIR)
 
 $(MLXLIB)		:
+				git submodule update --remote
+				$(shell cd mlx; cmake CMakeLists.txt)
 				@$(MAKE) -C $(MLXDIR)
 
 clean			:
@@ -48,7 +50,7 @@ fclean			: clean
 				@echo Cleaning fdf executable
 				@$(RM) $(NAME)
 				@$(MAKE) -C $(LIBDIR) fclean
-				@$(MAKE) -C $(MLXDIR) fclean
+				@$(MAKE) -C $(MLXDIR) clean
 
 re				: fclean all
 
