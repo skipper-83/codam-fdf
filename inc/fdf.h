@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/08 13:41:42 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/08 23:09:10 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 
 # define WIDTH 256
 # define HEIGHT 256
+# define Z 0
+# define COLOR 1
+# define DEFAULT_COLOR 0xFFFFFFFF
 
 typedef struct s_pixel{
 	int	x;
@@ -51,6 +54,9 @@ typedef struct s_line{
 typedef struct s_meta{
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	t_list		*points;
+	int			drawing_h;
+	int			drawing_w;
 }	t_meta;
 
 void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2);

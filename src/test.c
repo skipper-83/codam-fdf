@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/08 15:06:06 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/08 23:24:54 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,43 +55,102 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 	}
 }
 
-t_list	*add_point(int x, int y, int *z_color)
+void	free_array(char **arr)
 {
-	
-}
-
-t_list	*parse_line(char *line, t_list *res, int y)
-{
-	int	*line_arr;
 	int	i;
 
-	line_arr = ft_split(line, ' ');
 	i = 0;
-	while (line_arr[i])
+	while (arr[i])
 	{
-		
+		free(arr[i]);
 		i++;
 	}
+	free(arr[i]);
+	free(arr);
 }
 
-t_list	*parse_file(char *filename)
+void	print_point(void *param)
+{
+	t_point	*point;
+	static int	counter;
+
+	point = (t_point *)param;
+	ft_printf("% 3i: % 3i : % 3i : % 3i : %#x; \n", counter++, point->x, point->y, point->z, point->color);
+}
+
+t_list	*add_point(t_list **head, int x, int y, char **point_arr)
+{
+	t_list	*new;
+	t_point	*point;
+
+	point = malloc(sizeof(t_point));
+	if (point == NULL)
+		return (ft_lstclear(head, free), NULL);
+	point->x = x;
+	point->y = y;
+	point->z = ft_atoi(point_arr[Z]);
+	if (point_arr[COLOR])
+		point->color = ft_atoi(point_arr[COLOR]); // FIX: GET COLOR FROM HEX
+	else
+		point->color = DEFAULT_COLOR;
+	new = ft_lstnew(point);
+	if (new == NULL)
+		return (free(point), ft_lstclear(head, free), NULL);
+	ft_lstadd_back(head, new);
+	return (*head);
+}
+
+
+t_list	*parse_line(char *line, t_list *res, int y, t_meta *m)
+{
+	char		**line_arr;
+	char		**point_arr;
+	int			i;
+
+	line_arr = ft_split(line, ' ');
+	if (line_arr == NULL)
+		return (NULL);
+	i = 0;
+	while (line_arr[i][0] != '\n')
+	{
+		point_arr = ft_split(line_arr[i], ',');
+		res = add_point(&res, i + 1, y, point_arr);
+		if (res == NULL)
+			return (free_array(line_arr), NULL);
+		free_array(point_arr);
+		i++;
+	}
+	if (m->drawing_w == 0)
+		m->drawing_w = i;
+	if (m->drawing_w != i)
+		return (ft_lstclear(&res, free), free_array(line_arr), NULL);
+	free_array(line_arr);
+	return (res);
+}
+
+t_list	*parse_file(char *filename, t_meta *m)
 {
 	int		fd;
 	int		y;
 	char	*line;
 	t_list	*res;
 
-	y = 1;
+	y = 0;
 	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
-	res = parse_line(line, res, y);
+	res = NULL;
 	while (line)
 	{
-		ft_printf("%s", line);
+		res = parse_line(line, res, y + 1, m);
+		if (res == NULL)
+			return (free(line), NULL);
 		free(line);
 		line = get_next_line(fd);
+		y++;
 	}
-	return (NULL);
+	m->drawing_h = y;
+	ft_lstiter(res, &print_point);
+	return (res);
 }
 
 void	f(void)
@@ -104,7 +163,7 @@ int32_t	main(int argc, char **argv)
 	t_meta	*m;
 
 	atexit(f);
-	m = (t_meta *)malloc(sizeof (t_meta));
+	m = (t_meta *)ft_calloc(1, sizeof(t_meta));
 	m->mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
 	if (!m->mlx)
 		exit(EXIT_FAILURE);
@@ -114,9 +173,11 @@ int32_t	main(int argc, char **argv)
 	mlx_mouse_hook(m->mlx, &handle_mouse, m);
 	mlx_loop_hook(m->mlx, &hook, m->mlx);
 	if (argc == 2)
-		parse_file(argv[1]);
+		m->points = parse_file(argv[1], m);
+	// ft_printf("width %i, height %i\n", m->drawing_w, m->drawing_h);
 	mlx_loop(m->mlx);
 	mlx_terminate(m->mlx);
+	ft_lstclear(&(m->points), free);
 	free(m);
 	return (EXIT_SUCCESS);
 }
