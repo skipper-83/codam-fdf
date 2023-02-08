@@ -38,6 +38,7 @@ $(LIB)			:
 $(MLXLIB)		:
 				git submodule init
 				git submodule update
+				pwd
 				$(shell cd mlx; cmake CMakeLists.txt)
 				@$(MAKE) -C $(MLXDIR)
 
