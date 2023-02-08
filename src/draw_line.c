@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:59 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/05 23:53:46 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/08 12:56:05 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	set_longest_shortest_numerator(t_line *line)
  * @param px1 
  * @param px2 
  */
-void	draw_line(t_pixel px1, t_pixel px2)
+void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 {
 	t_line	line;
 	int		i;
@@ -94,7 +94,7 @@ void	draw_line(t_pixel px1, t_pixel px2)
 	while (i <= line.longest)
 	{
 		line.numerator += line.shortest;
-		mlx_put_pixel(g_img, px1.x, px1.y, 0xFF0000FF);
+		mlx_put_pixel(img, px1.x, px1.y, 0xFF0000FF);
 		if (line.numerator >= line.longest)
 		{
 			line.numerator -= line.longest;

@@ -17,8 +17,8 @@ OBJS			= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 NAME			= fdf
 
 CC				= cc
-CCFLAGS			= #-Wall -Werror -Wextra
-MLXFLAGS		= -framework Cocoa -framework IOKit -framework OpenGL -lglfw
+CCFLAGS			= # -Wall -Werror -Wextra
+MLXFLAGS		= -framework Cocoa -framework IOKit -framework OpenGL -lglfw3
 
 RM				= rm -rf
 
