@@ -36,7 +36,8 @@ $(LIB)			:
 				@$(MAKE) -C $(LIBDIR)
 
 $(MLXLIB)		:
-				git submodule update --remote
+				git submodule init
+				git submodule update
 				$(shell cd mlx; cmake CMakeLists.txt)
 				@$(MAKE) -C $(MLXDIR)
 
