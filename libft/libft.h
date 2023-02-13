@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 11:14:03 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/05 23:46:55 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/11 14:37:30 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*ft_llitoa(long long int n);
 char	*ft_uitoa_base(unsigned long long n, char *base);
 char	*ft_llitoa(long long int n);
 char	*ft_ftoa(long double n, int precision);
+size_t	ft_atou_base(char *str, char *base, char *prefix);
 int		ft_pow(int n, int exp);
 int		ft_round(float val);
 int		ft_abs(int n);

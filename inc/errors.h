@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 12:35:13 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/11 14:37:57 by albertvanan      ###   ########.fr       */
+/*   Created: 2023/02/11 12:21:40 by albertvanan       #+#    #+#             */
+/*   Updated: 2023/02/13 22:19:41 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef ERRORS_H
+# define ERRORS_H
 
-/**
- * @brief apply function f on all items of list lst
- * 
- * @param lst 
- * @param f the function applied to lst->content
- */
-void	ft_lstiter(t_list *lst, void (*f)(void *))
-{
-	if (!f)
-		return ;
-	while (lst)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
-}
+# include "fdf.h"
+
+# define ERROR_FILE "Erroneous map file provided"
+# define ERROR_MEM "Memory allocation error"
+# define ERROR_MAP "Map not rectangular"
+# define ERROR_MLX "Error in MLX42 function"
+# define ERROR_NO_MAP "No map provided! Usage: ./fdf [PATH_TO_MAP]"
+# define ERROR_PATH "Path to map is corrupt!"
+
+#endif

@@ -55,7 +55,8 @@ SRCS		=	ft_isalpha.c \
 				pf_set_flags.c \
 				pf_util.c \
 				ft_round.c \
-				ft_abs.c
+				ft_abs.c \
+				ft_atou_base.c
 
 
 #turn sources into objects

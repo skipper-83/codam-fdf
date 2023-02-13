@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 23:12:50 by albertvanan       #+#    #+#             */
-/*   Updated: 2022/12/25 15:49:28 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/11 11:56:30 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 10000
 # endif
 
 # include <unistd.h>

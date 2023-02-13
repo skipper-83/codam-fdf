@@ -10,14 +10,14 @@ SRC_DIR			= src
 OBJ_DIR			= obj
 
 
-SRCS_LIST		= test.c draw_line.c
+SRCS_LIST		= test.c draw_line.c parse.c debug.c util.c matrix_utils.c matrix_inverse.c
 SRCS			= $(addprefix $(SRC_DIR)/, $(SRCS_LIST))
 OBJS			= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 NAME			= fdf
 
-CC				= cc
-CCFLAGS			= # -Wall -Werror -Wextra
+CC				= gcc
+CCFLAGS			= #-fsanitize=address # -Wall -Werror -Wextra
 MLXFLAGS		= -framework Cocoa -framework IOKit -framework OpenGL -lglfw
 
 RM				= rm -rf

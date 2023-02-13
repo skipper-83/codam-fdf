@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 12:35:13 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/11 14:37:57 by albertvanan      ###   ########.fr       */
+/*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
+/*   Updated: 2023/02/11 12:47:32 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
+#include <errno.h>
 
-/**
- * @brief apply function f on all items of list lst
- * 
- * @param lst 
- * @param f the function applied to lst->content
- */
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+void	free_array(char **arr)
 {
-	if (!f)
-		return ;
-	while (lst)
+	int	i;
+
+	i = 0;
+	while (arr[i])
 	{
-		f(lst->content);
-		lst = lst->next;
+		free(arr[i]);
+		i++;
 	}
+	free(arr[i]);
+	free(arr);
+}
+
+void	exit_error(char *error_msg)
+{
+	if (errno == 0)
+		ft_putendl_fd(error_msg, 2);
+	else
+		perror(error_msg);
+	exit (1);
 }
