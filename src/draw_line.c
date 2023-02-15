@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:59 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/12 00:59:00 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 13:44:20 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 	line.height = px2.y - px1.y;
 	set_step(&line);
 	set_longest_shortest_numerator(&line);
-	color_step = (px1.color - px2.color) / line.longest;
+	color_step = (px1.color - px2.color) / line.longest; //  to be fixed
 	i = 0;
 	while (i <= line.longest)
 	{
 		line.numerator += line.shortest;
-		mlx_put_pixel(img, px1.x, px1.y, px1.color);
+		put_pixel_safe(img, px1);
 		if (line.numerator >= line.longest)
 		{
 			line.numerator -= line.longest;

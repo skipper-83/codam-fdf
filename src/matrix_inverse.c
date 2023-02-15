@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:09:52 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/13 22:14:35 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 13:48:07 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static void	reduce_above_diagnonal(float **matrix, float **inverse);
  * @param input 
  * @return float** 
  */
-float	**matrix4x4_invert(float **input)
+float	**m44_invert(float **input)
 {
 	float	**matrix;
 	float	**inverse;
 	int		cols;
 
-	matrix = matrix4x4_copy(input);
-	inverse = matrix4x4_init();
+	matrix = m44_copy(input);
+	inverse = m44_init();
 	if (matrix == NULL || inverse == NULL)
 		exit_error(ERROR_MEM);
 	cols = 0;
@@ -46,13 +46,13 @@ float	**matrix4x4_invert(float **input)
 	reduce_under_diagonal(matrix, inverse);
 	scale_pivots(matrix, inverse);
 	reduce_above_diagnonal(matrix, inverse);
-	matrix4x4_print(inverse);
-	matrix4x4_free(matrix);
+	m44_print(inverse);
+	m44_free(matrix);
 	return (inverse);
 }
 
 /**
- * @brief	Subfunction for matrix4x4_inverse. Gets called whenever a pivot
+ * @brief	Subfunction for m44_inverse. Gets called whenever a pivot
  * 			of a matrix (ie m[1,1] or m[3,3]) is zero. Swaps it out for the 
  * 			highest absolute number in the column of the given pivot, unless
  * 			this puts a zero on a pivot place left of the current column.

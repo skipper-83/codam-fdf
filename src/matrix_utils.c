@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:32:58 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/13 22:13:44 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 13:51:06 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * 
  * @return float** 
  */
-float	**matrix4x4_init(void)
+float	**m44_init(void)
 {
 	float		**res;
 	int			rows;
@@ -51,7 +51,7 @@ float	**matrix4x4_init(void)
  * 
  * @param matrix 
  */
-void	matrix4x4_free(float **matrix)
+void	m44_free(float **matrix)
 {
 	int	rows;
 
@@ -67,7 +67,7 @@ void	matrix4x4_free(float **matrix)
  * @param matrix 
  * @return float** 
  */
-float	**matrix4x4_copy(float **matrix)
+float	**m44_copy(float **matrix)
 {
 	int		rows;
 	int		cols;
@@ -75,7 +75,7 @@ float	**matrix4x4_copy(float **matrix)
 
 	rows = 0;
 	cols = 0;
-	res = matrix4x4_init();
+	res = m44_init();
 	if (res == NULL)
 		exit_error(ERROR_MEM);
 	while (rows < 4)
@@ -95,7 +95,7 @@ float	**matrix4x4_copy(float **matrix)
  * @brief	Returns dot product of two matrices. Set free_m1 to 1
  * 			to free the first input matrix, so you can write
  * 
- * 			m1 = matrix4x4_dot_product(m1, m2, 1);
+ * 			m1 = m44_dot_product(m1, m2, 1);
  * 
  * 			without leaking memory.
  * 
@@ -104,13 +104,13 @@ float	**matrix4x4_copy(float **matrix)
  * @param free_m1 
  * @return float** 
  */
-float	**matrix4x4_dot_product(float **m1, float **m2, int free_m1)
+float	**m44_dot_product(float **m1, float **m2, int free_m1)
 {
 	float	**product;
 	int		rows;
 	int		cols;
 
-	product = matrix4x4_init();
+	product = m44_init();
 	rows = 0;
 	cols = 0;
 	if (product == NULL)
@@ -129,7 +129,7 @@ float	**matrix4x4_dot_product(float **m1, float **m2, int free_m1)
 		rows++;
 	}
 	if (free_m1)
-		matrix4x4_free(m1);
+		m44_free(m1);
 	return (product);
 }
 
@@ -139,7 +139,7 @@ float	**matrix4x4_dot_product(float **m1, float **m2, int free_m1)
  * @param m the matrix
  * @param p the point
  */
-void	matrix4x4_multiply_point(float **m, t_point *p)
+void	m44_multiply_point(float **m, t_point *p)
 {
 	float	x;
 	float	y;

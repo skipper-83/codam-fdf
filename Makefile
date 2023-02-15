@@ -10,7 +10,8 @@ SRC_DIR			= src
 OBJ_DIR			= obj
 
 
-SRCS_LIST		= test.c draw_line.c parse.c debug.c util.c matrix_utils.c matrix_inverse.c
+SRCS_LIST		= test.c draw_line.c parse.c debug.c util.c matrix_utils.c matrix_inverse.c matrix_transformations.c \
+				  draw_functions.c
 SRCS			= $(addprefix $(SRC_DIR)/, $(SRCS_LIST))
 OBJS			= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 

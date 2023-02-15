@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:40:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/13 00:25:38 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 13:48:03 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_meta(t_meta *m)
  * 
  * @param matrix 
  */
-void	matrix4x4_print(float **matrix)
+void	m44_print(float **matrix)
 {
 	int	rows;
 	int	cols;
@@ -71,13 +71,13 @@ void	matrix4x4_print(float **matrix)
  * @param matrix 
  * @return float** 
  */
-float	**matrix4x4_arr_to_pointer(float matrix[][4])
+float	**m44_arr_to_pointer(float matrix[][4])
 {
 	float	**res;
 	int		rows;
 	int		cols;
 
-	res = matrix4x4_init();
+	res = m44_init();
 	rows = 0;
 	cols = 0;
 	if (res == NULL)

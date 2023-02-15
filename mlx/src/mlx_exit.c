@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   mlx_exit.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: W2Wizard <w2.wizzard@gmail.com>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/12/28 02:43:22 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2022/11/26 14:23:55 by jvan-hal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   mlx_exit.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/28 02:43:22 by W2Wizard          #+#    #+#             */
+/*   Updated: 2023/02/14 09:48:56 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void mlx_terminate(mlx_t* mlx)
 	MLX_NONNULL(mlx);
 
 	mlx_ctx_t *const mlxctx = mlx->context;
+	(void)mlx_free_image;
 
 	glfwTerminate();
 	mlx_lstclear((mlx_list_t**)(&mlxctx->hooks), &free);

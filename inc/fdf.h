@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/13 22:39:34 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 13:49:58 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ typedef struct s_point{
 	float		x;
 	float		y;
 	float		z;
-	int		color;
-	t_meta	*m;
+	int			color;
+	t_meta		*m;
 }	t_point;
 
 typedef struct s_line{
@@ -72,25 +72,44 @@ typedef struct s_line{
 	int	y_step2;
 }	t_line;
 
+typedef struct s_angle
+{
+	float	x;
+	float	y;
+	float	z;
+}	t_angle;
+
+
 void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);
 void	free_array(char **arr);
 void	exit_error(char *error_msg);
-float	**matrix4x4_invert(float **input);
+float	**m44_invert(float **input);
+
+// MATRIX TRANSFORMATIONS
+
+void	m44_rotate(float **matrix, int angle, char axis);
+void	m44_scale(float **matrix, float x, float y, float z);
+
+// DRAW FUNCTIONS
+
+void	put_pixel_safe(mlx_image_t *img, t_pixel pixel);
+void	draw_raster(t_pixel *map, t_meta *m, mlx_image_t *img);
+void	draw_pixels(t_pixel *pixel, t_meta *m, mlx_image_t *img);
 
 // MATRIX UTILS
 
-float	**matrix4x4_init(void);
-void	matrix4x4_free(float **matrix);
-float	**matrix4x4_copy(float **matrix);
-float	**matrix4x4_dot_product(float **m1, float **m2, int free_m1);
-void	matrix4x4_multiply_point(float **m, t_point *p);
+float	**m44_init(void);
+void	m44_free(float **matrix);
+float	**m44_copy(float **matrix);
+float	**m44_dot_product(float **m1, float **m2, int free_m1);
+void	m44_multiply_point(float **m, t_point *p);
 
 // DEBUG
 
 void	print_meta(t_meta *m);
 void	print_point(void *param);
-void	matrix4x4_print(float **matrix);
-float	**matrix4x4_arr_to_pointer(float matrix[][4]);
+void	m44_print(float **matrix);
+float	**m44_arr_to_pointer(float matrix[][4]);
 
 #endif

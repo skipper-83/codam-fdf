@@ -6,44 +6,23 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/13 22:50:35 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 13:47:58 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <errno.h>
 
-void	draw_points(void *param)
-{
-	t_point	*point;
+// void	draw_points(void *param)
+// {
+// 	t_point	*point;
 
-	point = (t_point *)param;
-	// ft_printf("x: %i, meta: %p\n", point->x, point->m);
-	mlx_put_pixel(point->m->img, point->x, point->y, point->color);
-}
+// 	point = (t_point *)param;
+// 	// ft_printf("x: %i, meta: %p\n", point->x, point->m);
+// 	mlx_put_pixel(point->m->img, point->x, point->y, point->color);
+// }
 
-void	draw_pixels(t_pixel *pixel, t_meta *m)
-{
-	int	i;
 
-	i = 0;
-	while (i < m->drawing_h * m->drawing_w)
-	{
-		if (pixel[i].x > 0 && pixel[i].x <= WIDTH)
-			if (pixel[i].y > 0 && pixel[i].y <= HEIGHT)
-				mlx_put_pixel(m->img, pixel[i].x, pixel[i].y, pixel[i].color);
-		i++;
-	}
-}
-
-void	hook(void *param)
-{
-	mlx_t	*mlx;
-
-	mlx = (mlx_t *)param;
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-}
 
 t_pixel	*point_to_pix(t_meta *m)
 {
@@ -69,7 +48,7 @@ t_pixel	*point_to_pix(t_meta *m)
 		while (cols > 0)
 		{
 			point = (t_point *)head->content;
-			ft_printf("point: %f, %f, %f\n", point->x, point->y, point->z);
+			// ft_printf("point: %f, %f, %f\n", point->x, point->y, point->z);
 			res[i].x = point->x / point->z;
 			res[i].y = point->y / point->z;
 			res[i].color = point->color;
@@ -85,30 +64,85 @@ t_pixel	*point_to_pix(t_meta *m)
 	return (res);
 }
 
-void	draw_raster(t_pixel *map, t_meta *m)
-{
-	int	rows;
-	int	cols;
-	int	i;
 
-	rows = 0;
-	cols = 0;
-	i = 0;
-	while (rows < m->drawing_h)
+
+void	hook(void *param)
+{
+	
+	t_meta		*m;
+	float		**rotation;
+	float		**inverse;
+	t_list		*head;
+	t_point		*point;
+	mlx_image_t *new;
+	static int 	count;
+	t_pixel		*map;
+
+	m = (t_meta *)param;
+	if (mlx_is_key_down(m->mlx, MLX_KEY_COMMA))
 	{
-		while (cols < m->drawing_w)
+		ft_printf("comma %i\n", count++);
+		rotation = m44_init();
+		if (rotation == NULL)
+			exit_error(ERROR_MEM);
+		m44_scale(rotation, 1.01, 1.01, 1);
+		// m44_rotate(rotation, 1, 'x');
+		// inverse = m44_invert(rotation);
+		// m44_print(rotation);
+		int	x = 0;
+		head = m->points;
+		while (head)
 		{
-			if (cols < m->drawing_w - 1)
-				draw_line(m->img, map[i], map[i + 1]);
-			if (rows < m->drawing_h - 1)
-				draw_line(m->img, map[i], map[i + m->drawing_w]);
-			// ft_printf("index: %i\n", i);
-			i++;
-			cols++;
+			point = (t_point *)head->content;
+			// ft_printf("point: %i, %f && %f", x++, point->y, point->x);
+			m44_multiply_point(rotation, point);
+			// ft_printf("-> %f && %f\n", point->y, point->z);
+			head = head->next;
 		}
-		cols = 0;
-		rows++;
+		new = mlx_new_image(m->mlx, WIDTH, HEIGHT);
+		// ft_memset(new->pixels, 100, new->width * new->height * sizeof(int));
+		map = point_to_pix(m);
+		draw_pixels(map, m, new);
+		mlx_image_to_window(m->mlx, new, 0, 0);
+		mlx_delete_image(m->mlx, m->img);
+		free(map);
+		m->img = new;
+		m44_free(rotation);
+		// m44_free(inverse);
 	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_PERIOD))
+	{
+		ft_printf("comma %i\n", count++);
+		rotation = m44_init();
+		if (rotation == NULL)
+			exit_error(ERROR_MEM);
+			m44_scale(rotation, 0.99, 0.99, 1);
+		// m44_rotate(rotation, -1, 'x');
+		// inverse = m44_invert(rotation);
+		// m44_print(rotation);
+		int	x = 0;
+		head = m->points;
+		while (head)
+		{
+			point = (t_point *)head->content;
+			// ft_printf("point: %i, %f && %f", x++, point->y, point->x);
+			m44_multiply_point(rotation, point);
+			// ft_printf("-> %f && %f\n", point->y, point->z);
+			head = head->next;
+		}
+		new = mlx_new_image(m->mlx, WIDTH, HEIGHT);
+		// ft_memset(new->pixels, 100, new->width * new->height * sizeof(int));
+		map = point_to_pix(m);
+		draw_pixels(map, m, new);
+		mlx_image_to_window(m->mlx, new, 0, 0);
+		mlx_delete_image(m->mlx, m->img);
+		free(map);
+		m->img = new;
+		m44_free(rotation);
+		// m44_free(inverse);
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(m->mlx);
 }
 
 void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
@@ -136,12 +170,12 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 			// {
 			// 	ft_printf("%i, %i\n", map[i].x, map[i].y);
 			// }
-			draw_pixels(map, m);
+			draw_pixels(map, m, m->img);
 			// ft_lstiter(m->points, &draw_points);
 		}
 		if (mod == 8)
 		{
-			draw_raster(map, m);
+			draw_raster(map, m, m->img);
 			free (map);
 			ft_printf("map drawn\n");
 		}
@@ -205,7 +239,7 @@ int32_t	main(int argc, char **argv)
 {
 	t_meta	*m;
 
-	// atexit(f);
+	atexit(f);
 	errno = 0;
 	if (argc != 2)
 		exit_error(ERROR_NO_MAP);
@@ -214,7 +248,7 @@ int32_t	main(int argc, char **argv)
 	// ft_memset(m->img->pixels, 255, WIDTH * HEIGHT * sizeof(int));
 	mlx_image_to_window(m->mlx, m->img, 0, 0);
 	mlx_mouse_hook(m->mlx, &handle_mouse, m);
-	mlx_loop_hook(m->mlx, &hook, m->mlx);
+	mlx_loop_hook(m->mlx, &hook, m);
 	mlx_loop(m->mlx);
 	mlx_terminate(m->mlx);
 	ft_lstclear(&(m->points), free);

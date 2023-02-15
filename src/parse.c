@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/13 23:20:41 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/14 23:07:12 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,5 @@ void	parse_file(t_meta *m)
 	close(fd);
 	m->drawing_h = y;
 	m->drawing_d = m->max_z - m->min_z;
-	spread_drawing(m);
+	// spread_drawing(m);
 }
