@@ -29,13 +29,7 @@ void* mlx_create_cursor(mlx_texture_t* texture)
 	MLX_NONNULL(texture);
 
 	GLFWcursor* cursor;
-	GLFWimage image = (GLFWimage) {
-		.width = texture->width,
-		.height = texture->height,
-		.pixels = texture->pixels
-	};
-
-	if ((cursor = glfwCreateCursor(&image, 0, 0)))
+	if ((cursor = glfwCreateCursor((GLFWimage*)texture, 0, 0)))
 		return (cursor);
 	return ((void *)mlx_error(MLX_MEMFAIL));
 }
