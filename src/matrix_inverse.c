@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_inverse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:09:52 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 13:48:07 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 14:55:36 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ float	**m44_invert(float **input)
 	reduce_under_diagonal(matrix, inverse);
 	scale_pivots(matrix, inverse);
 	reduce_above_diagnonal(matrix, inverse);
-	m44_print(inverse);
+	// m44_print(inverse);
 	m44_free(matrix);
 	return (inverse);
 }

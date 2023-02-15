@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 13:49:58 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 15:53:46 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ typedef struct s_meta{
 }	t_meta;
 
 typedef struct s_pixel{
-	int	x;
-	int	y;
-	int	color;
+	int		x;
+	int		y;
+	int		color;
+	char	enabled;
 }	t_pixel;
 
 typedef struct s_point{
@@ -79,7 +80,6 @@ typedef struct s_angle
 	float	z;
 }	t_angle;
 
-
 void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);
 void	free_array(char **arr);
@@ -88,8 +88,9 @@ float	**m44_invert(float **input);
 
 // MATRIX TRANSFORMATIONS
 
-void	m44_rotate(float **matrix, int angle, char axis);
+void	m44_rotate(float **matrix, float angle, char axis);
 void	m44_scale(float **matrix, float x, float y, float z);
+void	m44_translate(float **matrix, float x, float y, float z);
 
 // DRAW FUNCTIONS
 

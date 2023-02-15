@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_transformations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:28:29 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 13:47:36 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 15:03:01 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static float	rad(int angle);
+static float	rad(float angle);
 
 /**
  * @brief Rotate matrix over axis [axis] with angle [angle] (in degrees)
@@ -21,7 +21,7 @@ static float	rad(int angle);
  * @param angle 
  * @param axis 
  */
-void	mm44_rotate(float **matrix, int angle, char axis)
+void	m44_rotate(float **matrix, float angle, char axis)
 {
 	if (axis == 'x')
 	{
@@ -61,7 +61,22 @@ void	m44_scale(float **matrix, float x, float y, float z)
 	matrix[2][2] *= z;
 }
 
-static float	rad(int angle)
+/**
+ * @brief Translate matrix
+ * 
+ * @param matrix 
+ * @param x 
+ * @param y 
+ * @param z 
+ */
+void	m44_translate(float **matrix, float x, float y, float z)
+{
+	matrix[3][0] += x;
+	matrix[3][1] += y;
+	matrix[3][2] += z;
+}
+
+static float	rad(float angle)
 {
 	return (M_PI / (180.0 / angle));
 }

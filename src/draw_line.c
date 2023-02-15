@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:59 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 13:44:20 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 17:03:05 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 	int		i;
 	int		color_step;
 
-	if (px1.x == px2.x && px1.y == px2.y)
+	if ((px1.x == px2.x && px1.y == px2.y) || !px1.enabled || !px2.enabled)
+		return ;
+	if(px1.x > WIDTH || px2.x > WIDTH || px1.y > HEIGHT || px2.y > HEIGHT)
 		return ;
 	line.width = px2.x - px1.x;
 	line.height = px2.y - px1.y;

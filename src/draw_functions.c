@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:33:22 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 13:43:24 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 15:54:49 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
  */
 void	put_pixel_safe(mlx_image_t *img, t_pixel pixel)
 {
+	if	(!pixel.enabled)
+		return ;
 	if (pixel.x >= 0 && pixel.x < WIDTH)
 		if (pixel.y >= 0 && pixel.y < HEIGHT)
 			mlx_put_pixel(img, pixel.x, pixel.y, pixel.color);
@@ -46,6 +48,7 @@ void	draw_raster(t_pixel *map, t_meta *m, mlx_image_t *img)
 	{
 		while (cols < m->drawing_w)
 		{
+			// ft_printf("drawing %i\n", i);
 			if (cols < m->drawing_w - 1)
 				draw_line(img, map[i], map[i + 1]);
 			if (rows < m->drawing_h - 1)

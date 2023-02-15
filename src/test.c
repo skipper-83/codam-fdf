@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/15 13:47:58 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/15 15:56:22 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,48 @@
 // 	// ft_printf("x: %i, meta: %p\n", point->x, point->m);
 // 	mlx_put_pixel(point->m->img, point->x, point->y, point->color);
 // }
+t_pixel	*point_to_pix(t_meta *m);
 
+void	create_new_image(t_meta *m, float **world, float **camera)
+{
+	mlx_image_t	*new;
+	t_list		*head;
+	t_pixel		*map;
+	t_point		*point;
+	float		**inverse;
 
+	inverse = NULL;
+	if (world == NULL)
+		world = m44_init();
+	if (world == NULL)
+		exit_error(ERROR_MEM);
+	if (camera)
+	{
+		inverse = m44_invert(camera);
+		if (inverse == NULL)
+			exit_error(ERROR_MEM);
+		world = m44_dot_product(world, inverse, FREE_M1);
+		m44_free(inverse);
+	}	
+	head = m->points;
+	while (head)
+	{
+		point = (t_point *)head->content;
+		m44_multiply_point(world, point);
+		head = head->next;
+	}
+	new = mlx_new_image(m->mlx, WIDTH, HEIGHT);
+	map = point_to_pix(m);
+	draw_pixels(map, m, new);
+	draw_raster(map, m, new);
+	mlx_image_to_window(m->mlx, new, 0, 0);
+	mlx_delete_image(m->mlx, m->img);
+	free(map);
+	m->img = new;
+	m44_free(world);
+	if (camera)
+		m44_free(camera);
+}
 
 t_pixel	*point_to_pix(t_meta *m)
 {
@@ -52,6 +92,9 @@ t_pixel	*point_to_pix(t_meta *m)
 			res[i].x = point->x / point->z;
 			res[i].y = point->y / point->z;
 			res[i].color = point->color;
+			res[i].enabled = 1;
+			if (point->z < 0)
+				res[i].enabled = 0;
 			// ft_printf("%i: %i, %i @ %#x\n", i, res[i].x, res[i].y, res[i].color);
 			head = head->next;
 			i--;
@@ -60,17 +103,14 @@ t_pixel	*point_to_pix(t_meta *m)
 		rows--;
 		cols = m->drawing_w;
 	}	
-	ft_printf("ptp3: %i\n", i);
+	// ft_printf("ptp3: %i\n", i);
 	return (res);
 }
 
-
-
 void	hook(void *param)
 {
-	
 	t_meta		*m;
-	float		**rotation;
+	float		**world;
 	float		**inverse;
 	t_list		*head;
 	t_point		*point;
@@ -81,65 +121,41 @@ void	hook(void *param)
 	m = (t_meta *)param;
 	if (mlx_is_key_down(m->mlx, MLX_KEY_COMMA))
 	{
-		ft_printf("comma %i\n", count++);
-		rotation = m44_init();
-		if (rotation == NULL)
+		// ft_printf("comma %i\n", count++);
+		world = m44_init();
+		if (world == NULL)
 			exit_error(ERROR_MEM);
-		m44_scale(rotation, 1.01, 1.01, 1);
-		// m44_rotate(rotation, 1, 'x');
-		// inverse = m44_invert(rotation);
-		// m44_print(rotation);
-		int	x = 0;
-		head = m->points;
-		while (head)
-		{
-			point = (t_point *)head->content;
-			// ft_printf("point: %i, %f && %f", x++, point->y, point->x);
-			m44_multiply_point(rotation, point);
-			// ft_printf("-> %f && %f\n", point->y, point->z);
-			head = head->next;
-		}
-		new = mlx_new_image(m->mlx, WIDTH, HEIGHT);
-		// ft_memset(new->pixels, 100, new->width * new->height * sizeof(int));
-		map = point_to_pix(m);
-		draw_pixels(map, m, new);
-		mlx_image_to_window(m->mlx, new, 0, 0);
-		mlx_delete_image(m->mlx, m->img);
-		free(map);
-		m->img = new;
-		m44_free(rotation);
-		// m44_free(inverse);
+		m44_translate(world, 0, 0, .01);
+		create_new_image(m, NULL, world);
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_PERIOD))
 	{
-		ft_printf("comma %i\n", count++);
-		rotation = m44_init();
-		if (rotation == NULL)
+		// ft_printf("comma %i\n", count++);
+		world = m44_init();
+		if (world == NULL)
 			exit_error(ERROR_MEM);
-			m44_scale(rotation, 0.99, 0.99, 1);
-		// m44_rotate(rotation, -1, 'x');
-		// inverse = m44_invert(rotation);
-		// m44_print(rotation);
-		int	x = 0;
-		head = m->points;
-		while (head)
-		{
-			point = (t_point *)head->content;
-			// ft_printf("point: %i, %f && %f", x++, point->y, point->x);
-			m44_multiply_point(rotation, point);
-			// ft_printf("-> %f && %f\n", point->y, point->z);
-			head = head->next;
-		}
-		new = mlx_new_image(m->mlx, WIDTH, HEIGHT);
-		// ft_memset(new->pixels, 100, new->width * new->height * sizeof(int));
-		map = point_to_pix(m);
-		draw_pixels(map, m, new);
-		mlx_image_to_window(m->mlx, new, 0, 0);
-		mlx_delete_image(m->mlx, m->img);
-		free(map);
-		m->img = new;
-		m44_free(rotation);
-		// m44_free(inverse);
+		m44_translate(world, 0, 0, -.01);
+		// m44_scale(world, 1.01, 1.01, 1);
+		create_new_image(m, NULL, world);
+
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_W))
+	{
+		world = m44_init();
+		if (world == NULL)
+			exit_error(ERROR_MEM);
+		m44_rotate(world, .1, 'x');
+		// m44_scale(world, 1.01, 1.01, 1);
+		create_new_image(m, NULL, world);
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_S))
+	{
+		world = m44_init();
+		if (world == NULL)
+			exit_error(ERROR_MEM);
+		m44_rotate(world, -.1, 'x');
+		// m44_scale(world, 1.01, 1.01, 1);
+		create_new_image(m, NULL, world);
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(m->mlx);

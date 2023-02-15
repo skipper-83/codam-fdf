@@ -18,7 +18,7 @@ OBJS			= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 NAME			= fdf
 
 CC				= gcc
-CCFLAGS			= #-fsanitize=address # -Wall -Werror -Wextra
+CCFLAGS			= #-Wall -Werror -Wextra#-fsanitize=address # -Wall -Werror -Wextra
 MLXFLAGS		= -framework Cocoa -framework IOKit -framework OpenGL -lglfw3
 
 RM				= rm -rf
