@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 22:19:12 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/16 17:29:00 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ typedef struct s_meta{
 	int			drawing_h;
 	int			drawing_w;
 	int			drawing_d;
+	int			total_px;
 	int			max_z;
 	int			min_z;
 	char		*filename;
 	float		**world;
 	float		**camera;
-	float		**transformation;
+	float		**transformer;
 }	t_meta;
 
 typedef struct s_pixel{
@@ -107,7 +108,13 @@ float	**m44_init(void);
 void	m44_free(float **matrix);
 float	**m44_copy(float **matrix);
 float	**m44_dot_product(float **m1, float **m2, int free_m1);
+void	m44_to_identity_matrix(float **matrix);
+int		m44_is_identity_matrix(float **matrix);
+
+// POINT UTILS
+
 void	m44_multiply_point(float **m, t_point *p);
+t_pixel	*point_to_pix(t_meta *m);
 
 // DEBUG
 

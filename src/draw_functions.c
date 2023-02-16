@@ -6,7 +6,7 @@
 /*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:33:22 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 15:54:49 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:54:46 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  */
 void	put_pixel_safe(mlx_image_t *img, t_pixel pixel)
 {
-	if	(!pixel.enabled)
+	if (!pixel.enabled)
 		return ;
 	if (pixel.x >= 0 && pixel.x < WIDTH)
 		if (pixel.y >= 0 && pixel.y < HEIGHT)
@@ -74,7 +74,7 @@ void	draw_pixels(t_pixel *pixel, t_meta *m, mlx_image_t *img)
 	int	i;
 
 	i = 0;
-	while (i < m->drawing_h * m->drawing_w)
+	while (i < m->total_px)
 	{
 		put_pixel_safe(img, pixel[i]);
 		i++;

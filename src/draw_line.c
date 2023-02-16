@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:59 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 22:16:58 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/16 15:56:09 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 
 	if ((px1.x == px2.x && px1.y == px2.y) || !px1.enabled || !px2.enabled)
 		return ;
-	// if(px1.x > WIDTH || px2.x > WIDTH || px1.y > HEIGHT || px2.y > HEIGHT)
-	// 	return ;
 	if (px1.y > HEIGHT || px1.x > WIDTH)
 	{
 		buf = px1;

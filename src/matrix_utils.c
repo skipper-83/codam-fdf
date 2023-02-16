@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:32:58 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 13:51:06 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/16 16:31:39 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,22 +133,49 @@ float	**m44_dot_product(float **m1, float **m2, int free_m1)
 	return (product);
 }
 
-/**
- * @brief	Multiply a point (3 dimension vector) by a 4x4 matrix
- * 
- * @param m the matrix
- * @param p the point
- */
-void	m44_multiply_point(float **m, t_point *p)
+void	m44_to_identity_matrix(float **matrix)
 {
-	float	x;
-	float	y;
-	float	z;
+	int	rows;
+	int	cols;
 
-	x = p->x * m[0][0] + p->y * m[1][0] + p->z * m[2][0] + m[3][0];
-	y = p->x * m[0][1] + p->y * m[1][1] + p->z * m[2][1] + m[3][1];
-	z = p->x * m[0][2] + p->y * m[1][2] + p->z * m[2][2] + m[3][2];
-	p->x = x;
-	p->y = y;
-	p->z = z;
+	rows = 0;
+	while (rows < 4)
+	{
+		cols = 0;
+		while (cols < 4)
+		{
+			if (rows == cols)
+				matrix[rows][cols] = 1;
+			else
+				matrix[rows][cols] = 0;
+			cols++;
+		}
+		rows++;
+	}
+}
+
+int	m44_is_identity_matrix(float **matrix)
+{
+	int	rows;
+	int	cols;
+
+	rows = 0;
+	while (rows < 4)
+	{
+		cols = 0;
+		while (cols < 4)
+		{
+			if (rows == cols)
+			{
+				if (matrix[rows][cols] != 1)
+					return (0);
+			}
+			else
+				if (matrix[rows][cols] != 0)
+					return (0);
+			cols++;
+		}
+		rows++;
+	}
+	return (1);
 }
