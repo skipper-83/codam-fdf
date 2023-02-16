@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/15 15:56:22 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:17:35 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,17 +144,67 @@ void	hook(void *param)
 		world = m44_init();
 		if (world == NULL)
 			exit_error(ERROR_MEM);
-		m44_rotate(world, .1, 'x');
+		m44_rotate(world, .01, 'x');
 		// m44_scale(world, 1.01, 1.01, 1);
-		create_new_image(m, NULL, world);
+		create_new_image(m, world, NULL);
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_S))
 	{
 		world = m44_init();
 		if (world == NULL)
 			exit_error(ERROR_MEM);
-		m44_rotate(world, -.1, 'x');
+		m44_rotate(world, -.01, 'x');
 		// m44_scale(world, 1.01, 1.01, 1);
+		create_new_image(m, world, NULL);
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_A))
+	{
+		world = m44_init();
+		if (world == NULL)
+			exit_error(ERROR_MEM);
+		m44_rotate(world, .01, 'y');
+		// m44_scale(world, 1.01, 1.01, 1);
+		create_new_image(m, world, NULL);
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_D))
+	{
+		world = m44_init();
+		if (world == NULL)
+			exit_error(ERROR_MEM);
+		m44_rotate(world, -.01, 'y');
+		// m44_scale(world, 1.01, 1.01, 1);
+		create_new_image(m, world, NULL);
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_DOWN))
+	{
+		world = m44_init();
+		if (world == NULL)
+			exit_error(ERROR_MEM);
+		m44_translate(world, 0, -1, 0);
+		create_new_image(m, NULL, world);
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_UP))
+	{
+		world = m44_init();
+		if (world == NULL)
+			exit_error(ERROR_MEM);
+		m44_translate(world, 0, 1, 0);
+		create_new_image(m, NULL, world);
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT))
+	{
+		world = m44_init();
+		if (world == NULL)
+			exit_error(ERROR_MEM);
+		m44_translate(world, 1, 0, 0);
+		create_new_image(m, NULL, world);
+	}
+	if (mlx_is_key_down(m->mlx, MLX_KEY_RIGHT))
+	{
+		world = m44_init();
+		if (world == NULL)
+			exit_error(ERROR_MEM);
+		m44_translate(world, -1, 0, 0);
 		create_new_image(m, NULL, world);
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_ESCAPE))

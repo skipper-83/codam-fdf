@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:59 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 17:03:05 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:16:58 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,22 @@ void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 	t_line	line;
 	int		i;
 	int		color_step;
+	t_pixel	buf;
 
 	if ((px1.x == px2.x && px1.y == px2.y) || !px1.enabled || !px2.enabled)
 		return ;
-	if(px1.x > WIDTH || px2.x > WIDTH || px1.y > HEIGHT || px2.y > HEIGHT)
-		return ;
+	// if(px1.x > WIDTH || px2.x > WIDTH || px1.y > HEIGHT || px2.y > HEIGHT)
+	// 	return ;
+	if (px1.y > HEIGHT || px1.x > WIDTH)
+	{
+		buf = px1;
+		px1 = px2;
+		px2 = buf;
+	}
 	line.width = px2.x - px1.x;
 	line.height = px2.y - px1.y;
 	set_step(&line);
+	// ft_printf("width %i height %i step\n", line.width, line.height, line.step);
 	set_longest_shortest_numerator(&line);
 	color_step = (px1.color - px2.color) / line.longest; //  to be fixed
 	i = 0;
@@ -112,6 +120,8 @@ void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 			px1.x += line.x_step2;
 			px1.y += line.y_step2;
 		}
+		if (px1.x > WIDTH || px1.y > HEIGHT)
+			return ;
 		px1.color += color_step;
 		i++;
 	}

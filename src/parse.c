@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 17:05:36 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:56:56 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	spread_drawing(t_meta *m)
 	while (head)
 	{
 		point = (t_point *)head->content;
-		point->z = map_coeff(point->z, m->min_z, m->max_z, 0.5, 1.5);
+		point->z = map_coeff(point->z, m->min_z, m->max_z, 1.2, 0.8);
 		point->x = (point->x - 1) * multiplier + MARGIN;
 		point->y = (point->y - 1) * multiplier + MARGIN;
 		head = head->next;
