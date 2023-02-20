@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:59 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/16 15:56:09 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:12:54 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 
 	if ((px1.x == px2.x && px1.y == px2.y) || !px1.enabled || !px2.enabled)
 		return ;
-	if (px1.y > HEIGHT || px1.x > WIDTH)
+	if (px1.y > HEIGHT || px1.x > WIDTH || px1.x < 0 || px1.y < 0)
 	{
 		buf = px1;
 		px1 = px2;
@@ -118,7 +118,7 @@ void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 			px1.x += line.x_step2;
 			px1.y += line.y_step2;
 		}
-		if (px1.x > WIDTH || px1.y > HEIGHT)
+		if (px1.x > WIDTH || px1.y > HEIGHT || px1.x < 0 || px1.y < 0)
 			return ;
 		px1.color += color_step;
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:32:58 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/16 16:31:39 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:44:06 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

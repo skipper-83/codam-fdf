@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/16 17:29:00 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/20 02:37:25 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@
 # include <math.h>
 
 # define WINDOW_NAME "FDF"
-# define WIDTH 600
-# define HEIGHT 600
+# define WIDTH 1024
+# define HEIGHT 768
 # define MARGIN 60
+# define CANVAS_H 10
+# define CANVAS_W 7.68
 
 # define DEFAULT_COLOR 0xFFFFFFFF
 
@@ -114,7 +116,8 @@ int		m44_is_identity_matrix(float **matrix);
 // POINT UTILS
 
 void	m44_multiply_point(float **m, t_point *p);
-t_pixel	*point_to_pix(t_meta *m);
+t_pixel	*points_to_pixels(t_meta *m);
+t_pixel	point_to_pixel(t_point *point, t_meta *m);
 
 // DEBUG
 

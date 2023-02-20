@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_transformations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:28:29 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 15:03:01 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/19 20:43:44 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static float	rad(float angle);
  */
 void	m44_rotate(float **matrix, float angle, char axis)
 {
+	// ft_printf("angle: %f, rad angle %f\n", angle, rad(angle));
 	if (axis == 'x')
 	{
 		matrix[1][1] = cos(rad(angle));
@@ -78,5 +79,5 @@ void	m44_translate(float **matrix, float x, float y, float z)
 
 static float	rad(float angle)
 {
-	return (M_PI / (180.0 / angle));
+	return (angle * (M_PI / 180.0));
 }

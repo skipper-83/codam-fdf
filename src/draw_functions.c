@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:33:22 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/16 15:54:46 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/19 19:35:17 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

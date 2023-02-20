@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   point_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:58:20 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/16 16:10:39 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:43:19 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,45 +32,56 @@ void	m44_multiply_point(float **m, t_point *p)
 	p->z = z;
 }
 
-t_pixel	*point_to_pix(t_meta *m)
+t_pixel	point_to_pixel(t_point *point, t_meta *m)
 {
-	int		cols;
-	int		rows;
+	t_point	point_transformed;
+	t_pixel	res;
+	float	x;
+	float	y;
+	float	z;
+
+	point_transformed.x = point->x;
+	point_transformed.y = point->y;
+	point_transformed.z = point->z;
+	m44_multiply_point(m->transformer, &point_transformed);
+	// ft_printf("point: %f, %f, %f\n", point_transformed.x, point_transformed.y, point_transformed.z);
+	x = point_transformed.x / point_transformed.z;
+	y = point_transformed.y / point_transformed.z;
+	x = (x + CANVAS_W / 2) / CANVAS_W;
+	y = (y + CANVAS_H / 2) / CANVAS_H;
+	res.x = x * WIDTH;
+	res.y = y * HEIGHT;
+	res.color = point->color;
+	res.enabled = 1;
+	if (point_transformed.z < 0)
+		res.enabled = 0;
+	return (res);
+}
+
+
+t_pixel	*points_to_pixels(t_meta *m)
+{
 	int		i;
 	t_list	*head;
 	t_pixel	*res;
-	t_point	*point;
+	float	**inverse;
 
-// ft_printf("ptp1\n");
-	cols = m->drawing_w;
-	rows = m->drawing_h;
 	head = m->points;
-	res = malloc(sizeof(t_pixel) * (m->drawing_w * m->drawing_h));
-	i = m->drawing_w * m->drawing_h - 1;
-	// ft_printf("size: %i\n", m->drawing_w * m->drawing_h);
-	if (res == NULL)
+	res = malloc(sizeof(t_pixel) * (m->total_px));
+	i = m->total_px - 1;
+	inverse = m44_invert(m->camera);
+	if (inverse == NULL)
 		exit_error(ERROR_MEM);
-		// ft_printf("ptp2\n");
-	while (rows > 0)
+	m44_free(m->transformer);
+	m->transformer = m44_dot_product(m->world, inverse, KEEP_M1);
+	if (m->transformer == NULL)
+		exit_error(ERROR_MEM);
+	while (i >= 0)
 	{
-		while (cols > 0)
-		{
-			point = (t_point *)head->content;
-			// ft_printf("point: %f, %f, %f\n", point->x, point->y, point->z);
-			res[i].x = point->x / point->z;
-			res[i].y = point->y / point->z;
-			res[i].color = point->color;
-			res[i].enabled = 1;
-			if (point->z < 0)
-				res[i].enabled = 0;
-			// ft_printf("%i: %i, %i @ %#x\n", i, res[i].x, res[i].y, res[i].color);
-			head = head->next;
-			i--;
-			cols--;
-		}
-		rows--;
-		cols = m->drawing_w;
-	}	
-	// ft_printf("ptp3: %i\n", i);
+		res[i] = point_to_pixel((t_point *)head->content, m);
+		head = head->next;
+		i--;
+	}
+	m44_free(inverse);
 	return (res);
 }
