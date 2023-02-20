@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:58:35 by albertvanan       #+#    #+#             */
-/*   Updated: 2022/12/25 16:13:14 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/20 23:21:59 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*ft_ftoa(long double n, int precision)
 	if (!ret)
 		return (NULL);
 	fill_numbers(len - precision - 1, sign, n, ret);
+	if (sign)
+		n *= -1;
 	fill_float(precision, ret, len, n - (long long int)n);
 	if (sign)
 		ret[0] = '-';

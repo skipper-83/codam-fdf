@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:58:20 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/20 01:43:19 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 00:00:44 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,43 @@ void	m44_multiply_point(float **m, t_point *p)
 	p->z = z;
 }
 
-t_pixel	point_to_pixel(t_point *point, t_meta *m)
+void	fade_alpha_with_z(t_point p, t_pixel *px)
+{
+	int	alpha;
+
+	alpha = 255 - p.z * 2;
+	px->color = px->color >> 8;
+	px->color = px->color << 8;
+	if (alpha > 0)
+		px->color += alpha;
+}
+
+t_pixel	point_to_pixel_parallel(t_point *point, t_meta *m)
+{
+	t_point	point_transformed;
+	t_pixel	res;
+	float	x;
+	float	y;
+	float	z;
+
+	point_transformed.x = point->x;
+	point_transformed.y = point->y;
+	point_transformed.z = point->z;
+	m44_multiply_point(m->transformer, &point_transformed);
+	x = (point_transformed.x - point_transformed.y * cos(ft_rad(30))) / 15;
+	y = ((-point_transformed.z + point_transformed.y + point_transformed.x) * sin(ft_rad(30))) / 15;
+	x = (x + CANVAS_W / 2) / CANVAS_W;
+	y = (y + CANVAS_H / 2) / CANVAS_H;
+	res.x = x * WIDTH;
+	res.y = (1 - y) * HEIGHT;
+	res.color = point->color;
+	res.enabled = 1;
+	// if (point_transformed.z < 0)
+	// 	res.enabled = 0;
+	return (res);
+}
+
+t_pixel	point_to_pixel_perspective(t_point *point, t_meta *m)
 {
 	t_point	point_transformed;
 	t_pixel	res;
@@ -45,13 +81,23 @@ t_pixel	point_to_pixel(t_point *point, t_meta *m)
 	point_transformed.z = point->z;
 	m44_multiply_point(m->transformer, &point_transformed);
 	// ft_printf("point: %f, %f, %f\n", point_transformed.x, point_transformed.y, point_transformed.z);
-	x = point_transformed.x / point_transformed.z;
-	y = point_transformed.y / point_transformed.z;
+	x = point_transformed.x / -point_transformed.z;
+	y = point_transformed.y / -point_transformed.z;
+	// PARRALLEL PROJECTION STUB																			*
+	// * x = (point_transformed.x - point_transformed.y * cos(0.523598776)) / 10; 							*
+	// * y = ((-point_transformed.z + point_transformed.y + point_transformed.x) * sin(0.523598776)) / 10;	*
+	// END PARALLEL PROJECTION STUBD																		*
 	x = (x + CANVAS_W / 2) / CANVAS_W;
 	y = (y + CANVAS_H / 2) / CANVAS_H;
+	// ft_printf("point z: %f, alpha: %f\n", point_transformed.z, 255 - point_transformed.z * 2);
 	res.x = x * WIDTH;
-	res.y = y * HEIGHT;
+	res.y = (1 - y) * HEIGHT;
 	res.color = point->color;
+	// res.color = res.color >> 8;
+	// res.color = res.color << 8;
+	// if ((255 - point_transformed.z * 2 > 0))
+	// 	res.color += 255 - point_transformed.z * 2;
+	fade_alpha_with_z(point_transformed, &res);
 	res.enabled = 1;
 	if (point_transformed.z < 0)
 		res.enabled = 0;
@@ -78,7 +124,10 @@ t_pixel	*points_to_pixels(t_meta *m)
 		exit_error(ERROR_MEM);
 	while (i >= 0)
 	{
-		res[i] = point_to_pixel((t_point *)head->content, m);
+		if (m->projection == PERSPECTIVE)
+			res[i] = point_to_pixel_perspective((t_point *)head->content, m);
+		else
+			res[i] = point_to_pixel_parallel((t_point *)head->content, m);
 		head = head->next;
 		i--;
 	}

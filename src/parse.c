@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/20 02:37:19 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/20 23:48:30 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,59 +65,105 @@ static void	parse_line(char *line, int y, t_meta *m)
 	free_array(line_arr);
 }
 
-float map_coeff(float x, float in_min, float in_max, float out_min, float out_max)
+// float	map_coeff(float x, float in_min, float in_max)
+// {
+// 	return ((x - in_min) / (in_max - in_min));
+// }
+
+void	rotate_and_apply(float ***to_rotate, float	**applicator, float angle, char axis);
+// void	rotate_cam(t_meta *m, float angle, char axis);
+
+int	weird_purple_colors(float z)
 {
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	if (z > 100)
+		return (0xFFDF8DFF);
+	if (z > 75)
+		return (0xFFDE7AFF);
+	if (z > 50)
+		return (0xFFC568FF);
+	if (z > 25)
+		return (0xFD996BFF);
+	if (z > 15)
+		return (0xF7856CFF);
+	if (z > 10)
+		return (0xF06E6CFF);
+	if (z > 5)
+		return (0xD9576BFF);
+	if (z > 0)
+		return (0xA44369FF);
+	if (z > -10)
+		return (0x833F68FF);
+	if (z > -20)
+		return (0x833F68FF);
+	if (z > -50)
+		return (0x5E3C65FF);
+	return (0x3F3A63FF);
 }
 
-void	spread_drawing(t_meta *m)
+int	minecraft_colors(float z)
 {
-	// float		multiplier;
-	// int			drawing_longest;
-	// int			screen_shortest;
-	t_list		*head;
-	t_point		*point;
-	float		**preset;
-	float		coeff;
+	if (z > 70)
+		return (0xE9EAF0FF);
+	if (z > 62)
+		return (0xC4C1BDFF);
+	if (z > 50)
+		return (0x4C591AFF);
+	if (z > 10)
+		return (0x4C591AFF);
+	if (z > 1)
+		return (0x4D5E36FF);
+	if (z > 0)
+		return (0xD8D19CFF);
+	if (z > -5)
+		return (0x444CC6FF);
+	if (z > -10)
+		return (0x2A2EAEFF);
+	if (z > -30)
+		return (0x3D497CFF);
+	return (0x05093dFF);
 
-	preset = m44_init();
-	if (preset == NULL)
-		exit_error(ERROR_MEM);
-	
-	coeff = 5;
-	// m44_scale(translate, ((float)m->drawing_w / CANVAS_W) / 10, ((float)m->drawing_w / CANVAS_W) / 10, 1);
-	m44_scale(preset, coeff, coeff, 1);
-	m44_translate(preset, -((m->drawing_w * coeff) / 2) - 1, -((m->drawing_h * coeff) / 2) - 1, 0);
-	// drawing_longest = m->drawing_w;
-	// if (m->drawing_h > drawing_longest)
-	// 	drawing_longest = m->drawing_h;
-	// screen_shortest = HEIGHT;
-	// if (WIDTH < screen_shortest)
-	// 	screen_shortest = HEIGHT;
-	// multiplier = (float)(screen_shortest - (MARGIN * 2)) / (float)(drawing_longest - 1);
-	// // ft_printf("multiplier is %f\n", multiplier);
+}
+
+void	apply_color_scheme(t_meta *m, int (*scheme)(float z))
+{
+	t_list	*head;
+	t_point	*point;
+
 	head = m->points;
 	while (head)
 	{
 		point = (t_point *)head->content;
-		// point->y = (CANVAS_H / 2) - point->y;
-		// point->z = ((CANVAS_H / 2) - point->z / 2) ;//- m->drawing_d / 10;
-		point->z = -1 * map_coeff(point->z, m->min_z, m->max_z, 0, 1) * m->drawing_d;
-		// point->z = -1 * ((CANVAS_H / m->drawing_d) * point->z);
-		// point->z = 50 * ((m->drawing_w / m->drawing_d) * point->z);
-		m44_multiply_point(preset, point);
-		// ft_printf("point: %f, %f, %f\n", point->x, point->y, point->z);
-		// point->z = map_coeff(point->z, m->min_z, m->max_z, 0.5, 1.5);
-		// point->x = (point->x - 1) * multiplier + MARGIN;
-		// point->y = (point->y - 1) * multiplier + MARGIN;
+		point->color = scheme(point->z);
+		head = head->next;
+	}
+}
+
+void	spread_drawing(t_meta *m)
+{
+	t_list		*head;
+	t_point		*point;
+	float		coeff;
+
+	coeff = 5 + (m->drawing_d / m->drawing_w);
+	m44_scale(m->transformer, coeff, coeff, 1);
+	m44_translate(m->transformer, -((m->drawing_w * coeff) / 2) - 1, \
+									-((m->drawing_h * coeff) / 2) - 1, 0);
+	head = m->points;
+	while (head)
+	{
+		point = (t_point *)head->content;
+		// point->z *= -1;
+		m44_multiply_point(m->transformer, point);
 		head = head->next;
 	}
 	coeff = m->drawing_w;
 	if (m->drawing_d * .3 > m->drawing_w)
 		coeff = m->drawing_d * .3;
-	m44_translate(m->camera, 0, 0, -(coeff));
-	m44_rotate(m->camera, -45, 'z');
-	m44_free(preset);
+	rotate_and_apply(&m->camera, m->transformer, 180, 'x');
+	rotate_and_apply(&m->camera, m->transformer, 135, 'z');
+	m44_translate(m->camera, 0, 0, (coeff) * 1.8);
+	// apply_color_scheme(m, minecraft_colors);
+	// m44_rotate(m->camera, -45, 'z');
 }
 
 void	parse_file(t_meta *m)
@@ -143,6 +189,6 @@ void	parse_file(t_meta *m)
 	m->drawing_d = m->max_z - m->min_z;
 	m->total_px = m->drawing_h * m->drawing_w;
 	// ft_printf("drawing height / screen height: %f\n", ((float)m->drawing_h / CANVAS_H) / 10);
-	ft_printf("drawing width / screen width: %f\n", WIDTH / (float)m->drawing_w);
+	// ft_printf("drawing width / screen width: %f\n", WIDTH / (float)m->drawing_w);
 	spread_drawing(m);
 }

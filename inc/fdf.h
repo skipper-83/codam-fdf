@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/20 02:37:25 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/20 23:58:38 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # define COLOR 1
 # define KEEP_M1 0
 # define FREE_M1 1
+# define PERSPECTIVE 0
+# define PARALLEL 1
 
 typedef struct s_meta{
 	mlx_t		*mlx;
@@ -46,6 +48,7 @@ typedef struct s_meta{
 	int			total_px;
 	int			max_z;
 	int			min_z;
+	char		projection;
 	char		*filename;
 	float		**world;
 	float		**camera;
@@ -97,6 +100,7 @@ float	**m44_invert(float **input);
 void	m44_rotate(float **matrix, float angle, char axis);
 void	m44_scale(float **matrix, float x, float y, float z);
 void	m44_translate(float **matrix, float x, float y, float z);
+float	ft_rad(float angle);
 
 // DRAW FUNCTIONS
 
@@ -111,7 +115,7 @@ void	m44_free(float **matrix);
 float	**m44_copy(float **matrix);
 float	**m44_dot_product(float **m1, float **m2, int free_m1);
 void	m44_to_identity_matrix(float **matrix);
-int		m44_is_identity_matrix(float **matrix);
+// int		m44_is_identity_matrix(float **matrix);
 
 // POINT UTILS
 

@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:32:58 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/20 01:44:06 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/20 21:21:00 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,28 +154,28 @@ void	m44_to_identity_matrix(float **matrix)
 	}
 }
 
-int	m44_is_identity_matrix(float **matrix)
-{
-	int	rows;
-	int	cols;
+// int	m44_is_identity_matrix(float **matrix)
+// {
+// 	int	rows;
+// 	int	cols;
 
-	rows = 0;
-	while (rows < 4)
-	{
-		cols = 0;
-		while (cols < 4)
-		{
-			if (rows == cols)
-			{
-				if (matrix[rows][cols] != 1)
-					return (0);
-			}
-			else
-				if (matrix[rows][cols] != 0)
-					return (0);
-			cols++;
-		}
-		rows++;
-	}
-	return (1);
-}
+// 	rows = 0;
+// 	while (rows < 4)
+// 	{
+// 		cols = 0;
+// 		while (cols < 4)
+// 		{
+// 			if (rows == cols)
+// 			{
+// 				if (matrix[rows][cols] != 1)
+// 					return (0);
+// 			}
+// 			else
+// 				if (matrix[rows][cols] != 0)
+// 					return (0);
+// 			cols++;
+// 		}
+// 		rows++;
+// 	}
+// 	return (1);
+// }

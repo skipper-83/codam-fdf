@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:33:22 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/19 19:35:17 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/20 21:21:17 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ void	draw_raster(t_pixel *map, t_meta *m, mlx_image_t *img)
 	{
 		while (cols < m->drawing_w)
 		{
-			// ft_printf("drawing %i\n", i);
 			if (cols < m->drawing_w - 1)
 				draw_line(img, map[i], map[i + 1]);
 			if (rows < m->drawing_h - 1)
 				draw_line(img, map[i], map[i + m->drawing_w]);
-			// ft_printf("index: %i\n", i);
 			i++;
 			cols++;
 		}

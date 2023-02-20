@@ -6,13 +6,11 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:28:29 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/19 20:43:44 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/20 23:58:56 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static float	rad(float angle);
 
 /**
  * @brief Rotate matrix over axis [axis] with angle [angle] (in degrees)
@@ -23,27 +21,27 @@ static float	rad(float angle);
  */
 void	m44_rotate(float **matrix, float angle, char axis)
 {
-	// ft_printf("angle: %f, rad angle %f\n", angle, rad(angle));
+	// ft_printf("angle: %f, ft_rad angle %f\n", angle, ft_rad(angle));
 	if (axis == 'x')
 	{
-		matrix[1][1] = cos(rad(angle));
-		matrix[1][2] = sin(rad(angle));
-		matrix[2][1] = -1 * sin(rad(angle));
-		matrix[2][2] = cos(rad(angle));
+		matrix[1][1] = cos(ft_rad(angle));
+		matrix[1][2] = sin(ft_rad(angle));
+		matrix[2][1] = -1 * sin(ft_rad(angle));
+		matrix[2][2] = cos(ft_rad(angle));
 	}
 	if (axis == 'y')
 	{
-		matrix[0][0] = cos(rad(angle));
-		matrix[0][2] = -1 * sin(rad(angle));
-		matrix[2][0] = sin(rad(angle));
-		matrix[2][2] = cos(rad(angle));
+		matrix[0][0] = cos(ft_rad(angle));
+		matrix[0][2] = -1 * sin(ft_rad(angle));
+		matrix[2][0] = sin(ft_rad(angle));
+		matrix[2][2] = cos(ft_rad(angle));
 	}
 	if (axis == 'z')
 	{
-		matrix[0][0] = cos(rad(angle));
-		matrix[0][1] = sin(rad(angle));
-		matrix[1][0] = -1 * sin(rad(angle));
-		matrix[1][1] = cos(rad(angle));
+		matrix[0][0] = cos(ft_rad(angle));
+		matrix[0][1] = sin(ft_rad(angle));
+		matrix[1][0] = -1 * sin(ft_rad(angle));
+		matrix[1][1] = cos(ft_rad(angle));
 	}
 }
 
@@ -77,7 +75,7 @@ void	m44_translate(float **matrix, float x, float y, float z)
 	matrix[3][2] += z;
 }
 
-static float	rad(float angle)
+float	ft_rad(float angle)
 {
 	return (angle * (M_PI / 180.0));
 }
