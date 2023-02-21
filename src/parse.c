@@ -6,20 +6,30 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 11:18:09 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 23:24:37 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static int	has_digits(char *str)
+{
+	while (*str)
+	{
+		if (ft_isdigit(*str))
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
 
 static void	add_point(t_meta *m, int x, int y, char **point_arr)
 {
 	t_list	*new;
 	t_point	*point;
 
-	point = malloc(sizeof(t_point));
-	if (point == NULL)
-		exit_error(ERROR_MEM);
+	point = exit_on_null(malloc(sizeof(t_point)));
 	point->x = x;
 	point->y = y;
 	point->z = ft_atoi(point_arr[Z]);
@@ -47,13 +57,13 @@ static void	parse_line(char *line, int y, t_meta *m)
 	char		**point_arr;
 	int			i;
 
-	line_arr = ft_split(line, ' ');
-	if (line_arr == NULL)
-		exit_error(ERROR_MEM);
+	line_arr = exit_on_null(ft_split(line, ' '));
 	i = 0;
 	while (line_arr[i] && line_arr[i][0] != '\n')
 	{
-		point_arr = ft_split(line_arr[i], ',');
+		point_arr = exit_on_null(ft_split(line_arr[i], ','));
+		if (!has_digits(point_arr[Z]))
+			exit_error(ERROR_MAP_NUMBERS);
 		add_point(m, i + 1, y, point_arr);
 		free_array(point_arr);
 		i++;
@@ -61,7 +71,7 @@ static void	parse_line(char *line, int y, t_meta *m)
 	if (m->drawing_w == 0)
 		m->drawing_w = i;
 	if (m->drawing_w != i)
-		exit_error(ERROR_MAP);
+		exit_error(ERROR_MAP_SQUARE);
 	free_array(line_arr);
 }
 
@@ -159,7 +169,7 @@ void	spread_drawing(t_meta *m)
 	apply_rotate(&m->camera, m->transformer, 180, 'x');
 	apply_rotate(&m->camera, m->transformer, 135, 'z');
 	m44_translate(m->camera, 0, 0, (coeff) * 1.8);
-	apply_color_scheme(m, weird_purple_colors);
+	// apply_color_scheme(m, weird_purple_colors);
 }
 
 void	parse_file(t_meta *m)

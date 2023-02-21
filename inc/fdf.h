@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 11:06:50 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 23:22:27 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # define WIDTH 1024
 # define HEIGHT 768
 # define MARGIN 60
-# define CANVAS_H 10
-# define CANVAS_W 7.68
+// # define CANVAS_H 10
+// # define CANVAS_W 7.68
 
 # define DEFAULT_COLOR 0xFFFFFFFF
 
@@ -38,6 +38,13 @@
 # define PERSPECTIVE 0
 # define PARALLEL 1
 
+typedef struct s_angle
+{
+	float	x;
+	float	y;
+	float	z;
+}	t_angle;
+
 typedef struct s_meta{
 	mlx_t		*mlx;
 	mlx_image_t	*img;
@@ -45,6 +52,10 @@ typedef struct s_meta{
 	int			drawing_h;
 	int			drawing_w;
 	int			drawing_d;
+	int			window_w;
+	int			window_h;
+	float		canvas_w;
+	float		canvas_h;
 	int			total_px;
 	int			max_z;
 	int			min_z;
@@ -53,6 +64,12 @@ typedef struct s_meta{
 	float		**world;
 	float		**camera;
 	float		**transformer;
+	int			mouse_x;
+	int			mouse_y;
+	t_angle		cam_rotation;
+	t_angle		world_rotation;
+	char		fade_alpha;
+	char		is_rendered;
 }	t_meta;
 
 typedef struct s_pixel{
@@ -81,13 +98,6 @@ typedef struct s_line{
 	int	x_step2;
 	int	y_step2;
 }	t_line;
-
-typedef struct s_angle
-{
-	float	x;
-	float	y;
-	float	z;
-}	t_angle;
 
 void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);
@@ -154,6 +164,7 @@ void	translate_world(t_meta *m, float x, float y, float z);
 
 // CAMERA TRANSFORMATIONS
 
+void	update_rotation_var(t_angle *rotation_var, float angle, char axis);
 void	apply_rotate(float ***target, float **rotator, float angle, char axis);
 void	translate_cam(t_meta *m, float x, float y, float z);
 void	rotate_cam(t_meta *m, float angle, char axis);
