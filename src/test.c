@@ -6,79 +6,12 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/21 00:04:57 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 10:58:53 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <errno.h>
-
-void	create_new_image(t_meta *m)
-{
-	t_list		*head;
-	t_pixel		*map;
-	t_point		*point;
-	mlx_image_t	*new;
-
-	new = mlx_new_image(m->mlx, WIDTH, HEIGHT);
-	map = points_to_pixels(m);
-	draw_pixels(map, m, new);
-	draw_raster(map, m, new);
-	// draw_axes(m, new);
-	mlx_image_to_window(m->mlx, new, 0, 0);
-	mlx_delete_image(m->mlx, m->img);
-	free(map);
-	m->img = new;
-}
-
-void	translate_cam(t_meta *m, float x, float y, float z)
-{
-	m44_translate(m->camera, x, y, z);
-	// m44_print(m->camera);
-	create_new_image(m);
-}
-
-void	translate_world(t_meta *m, float x, float y, float z)
-{
-	m44_translate(m->world, x, y, z);
-	// m44_print(m->world);
-	create_new_image(m);
-}
-
-void	rotate_and_apply(float ***to_rotate, float	**applicator, float angle, char axis)
-{
-	m44_to_identity_matrix(applicator);
-	m44_rotate(applicator, angle, axis);
-	*to_rotate = m44_dot_product(*to_rotate, applicator, FREE_M1);
-}
-
-void	rotate_cam(t_meta *m, float angle, char axis)
-{
-	static float	x;
-	static float	y;
-
-	if (axis == 'x')
-		x += angle;
-	if (axis == 'y')
-		y += angle;
-	ft_printf("x: %f deg, y %f deg\n", x, y);
-	rotate_and_apply(&m->camera, m->transformer, angle, axis);
-	// ft_printf("cam rotation x: %f, y: %f, z: %f\n", m->cam_x_rotation, m->cam_y_rotation, m->cam_z_rotation);
-	// m44_print(m->camera);
-	create_new_image(m);
-}
-
-void	rotate_world(t_meta *m, float angle, char axis)
-{
-	rotate_and_apply(&m->world, m->transformer, angle, axis);
-	create_new_image(m);
-}
-
-void	scale_world(t_meta *m, float x, float y, float z)
-{
-	m44_scale(m->world, x, y, z);
-	create_new_image(m);
-}
 
 void	key_hook(mlx_key_data_t keydata, void *param)
 {
@@ -138,8 +71,8 @@ void	hook(void *param)
 	{
 		m44_to_identity_matrix(m->world);
 		m44_to_identity_matrix(m->camera);
-		rotate_and_apply(&m->camera, m->transformer, 180, 'x');
-		rotate_and_apply(&m->camera, m->transformer, 135, 'z');
+		apply_rotate(&m->camera, m->transformer, 180, 'x');
+		apply_rotate(&m->camera, m->transformer, 135, 'z');
 		coeff = m->drawing_w;
 		if (m->drawing_d * .3 > m->drawing_w)
 			coeff = m->drawing_d * .3;
@@ -154,25 +87,24 @@ void	hook(void *param)
 		if (m->drawing_d * .3 > m->drawing_w)
 			coeff = m->drawing_d * .3;
 		m44_translate(m->camera, 0, 0, -2 * (coeff));
-		rotate_and_apply(&m->camera, m->transformer, 60, 'x');
-		rotate_and_apply(&m->camera, m->transformer, -60, 'y');
+		apply_rotate(&m->camera, m->transformer, 60, 'x');
+		apply_rotate(&m->camera, m->transformer, -60, 'y');
 		create_new_image(m);
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_P))
 	{
 		if (m->projection != PERSPECTIVE)
 		{
-			// rotate_and_apply(m->camera)
-			rotate_and_apply(&m->camera, m->transformer, 180, 'z');
+			apply_rotate(&m->camera, m->transformer, 180, 'z');
 			m->projection = PERSPECTIVE;
-			create_new_image(m);	
+			create_new_image(m);
 		}
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_O))
 	{
 		if (m->projection != PARALLEL)
 		{
-			rotate_and_apply(&m->camera, m->transformer, 180, 'z');
+			apply_rotate(&m->camera, m->transformer, 180, 'z');
 			m->projection = PARALLEL;
 			create_new_image(m);
 		}
@@ -198,7 +130,6 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 		{
 			ft_printf("Right click\n");
 			parse_file(m);
-			// print_meta(m);
 			map = points_to_pixels(m);
 			draw_pixels(map, m, m->img);
 		}
@@ -208,18 +139,12 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 			free (map);
 			ft_printf("map drawn\n");
 		}
-		// ft_printf("map parsed\n");
 
 	}
 	if (b == MLX_MOUSE_BUTTON_LEFT && a == MLX_PRESS)
 	{
 		ft_printf("left click\n");
 
-		// new = mlx_new_image(m->mlx, WIDTH, HEIGHT);
-		// ft_memset(new->pixels, 100, new->width * new->height * sizeof(int));
-		// mlx_image_to_window(m->mlx, new, 0, 0);
-		// mlx_delete_image(m->mlx, m->img);
-		// m->img = new;
 		if (! (count++ % 2))
 		{
 			ft_printf("mouse count: %i\n", count);
@@ -244,36 +169,6 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 void	f(void)
 {
 	system("leaks fdf");
-}
-
-
-t_meta	*init_meta(char *filename)
-{
-	t_meta	*m;
-
-	m = (t_meta *)ft_calloc(1, sizeof(t_meta));
-	if (m == NULL)
-		exit_error(ERROR_MEM);
-	m->mlx = mlx_init(WIDTH, HEIGHT, WINDOW_NAME, true);
-	if (m->mlx == NULL)
-		exit_error(ERROR_MLX);
-	m->filename = filename;
-	m->max_z = INT32_MIN;
-	m->min_z = INT32_MAX;
-	m->world = m44_init();
-	m->camera = m44_init();
-	// m44_translate(m->camera, 0, 0, -10);
-	// m44_rotate(m->camera, 180, 'y');
-	// m->camera[2][2] = -1;
-	// m->camera[2][3] = -1;
-	// m->camera[3][3] = 0;
-	m->transformer = m44_init();
-	if (m->world == NULL || m->camera == NULL || m->transformer == NULL)
-		exit_error(ERROR_MEM);
-	// parse_file(m);
-	// ft_lstiter(m->points, &print_point);
-	// print_meta(m);
-	return (m);
 }
 
 int32_t	main(int argc, char **argv)

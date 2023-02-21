@@ -1,44 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   world_transformations.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 11:06:28 by albertvanan      ###   ########.fr       */
+/*   Created: 2023/02/21 10:32:44 by albertvanan       #+#    #+#             */
+/*   Updated: 2023/02/21 10:37:15 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <errno.h>
 
-void	free_array(char **arr)
+void	rotate_world(t_meta *m, float angle, char axis)
 {
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr[i]);
-	free(arr);
+	apply_rotate(&m->world, m->transformer, angle, axis);
+	create_new_image(m);
 }
 
-void	exit_error(char *error_msg)
+void	scale_world(t_meta *m, float x, float y, float z)
 {
-	if (errno == 0)
-		ft_putendl_fd(error_msg, 2);
-	else
-		perror(error_msg);
-	exit (1);
+	m44_scale(m->world, x, y, z);
+	create_new_image(m);
 }
 
-void	*exit_on_null(void *ptr)
+void	translate_world(t_meta *m, float x, float y, float z)
 {
-	if (ptr == NULL)
-		exit_error(ERROR_MEM);
-	return (ptr);
+	m44_translate(m->world, x, y, z);
+	create_new_image(m);
 }

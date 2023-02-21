@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/20 23:48:30 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 11:18:09 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static void	parse_line(char *line, int y, t_meta *m)
 // 	return ((x - in_min) / (in_max - in_min));
 // }
 
-void	rotate_and_apply(float ***to_rotate, float	**applicator, float angle, char axis);
 // void	rotate_cam(t_meta *m, float angle, char axis);
 
 int	weird_purple_colors(float z)
@@ -121,7 +120,6 @@ int	minecraft_colors(float z)
 	if (z > -30)
 		return (0x3D497CFF);
 	return (0x05093dFF);
-
 }
 
 void	apply_color_scheme(t_meta *m, int (*scheme)(float z))
@@ -152,18 +150,16 @@ void	spread_drawing(t_meta *m)
 	while (head)
 	{
 		point = (t_point *)head->content;
-		// point->z *= -1;
 		m44_multiply_point(m->transformer, point);
 		head = head->next;
 	}
 	coeff = m->drawing_w;
 	if (m->drawing_d * .3 > m->drawing_w)
 		coeff = m->drawing_d * .3;
-	rotate_and_apply(&m->camera, m->transformer, 180, 'x');
-	rotate_and_apply(&m->camera, m->transformer, 135, 'z');
+	apply_rotate(&m->camera, m->transformer, 180, 'x');
+	apply_rotate(&m->camera, m->transformer, 135, 'z');
 	m44_translate(m->camera, 0, 0, (coeff) * 1.8);
-	// apply_color_scheme(m, minecraft_colors);
-	// m44_rotate(m->camera, -45, 'z');
+	apply_color_scheme(m, weird_purple_colors);
 }
 
 void	parse_file(t_meta *m)
@@ -188,7 +184,5 @@ void	parse_file(t_meta *m)
 	m->drawing_h = y;
 	m->drawing_d = m->max_z - m->min_z;
 	m->total_px = m->drawing_h * m->drawing_w;
-	// ft_printf("drawing height / screen height: %f\n", ((float)m->drawing_h / CANVAS_H) / 10);
-	// ft_printf("drawing width / screen width: %f\n", WIDTH / (float)m->drawing_w);
 	spread_drawing(m);
 }

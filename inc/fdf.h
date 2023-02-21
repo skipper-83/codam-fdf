@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/20 23:58:38 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 11:06:50 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,13 @@ typedef struct s_angle
 
 void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);
+float	**m44_invert(float **input);
+
+// UTIL
+
 void	free_array(char **arr);
 void	exit_error(char *error_msg);
-float	**m44_invert(float **input);
+void	*exit_on_null(void *ptr);
 
 // MATRIX TRANSFORMATIONS
 
@@ -121,7 +125,19 @@ void	m44_to_identity_matrix(float **matrix);
 
 void	m44_multiply_point(float **m, t_point *p);
 t_pixel	*points_to_pixels(t_meta *m);
-t_pixel	point_to_pixel(t_point *point, t_meta *m);
+
+// COLOR
+
+int		get_red(int color);
+int		get_green(int color);
+int		get_blue(int color);
+int		get_alpha(int color);
+int		make_color(int r, int g, int b, int a);
+
+// FDF UTIL
+
+void	create_new_image(t_meta *m);
+t_meta	*init_meta(char *filename);
 
 // DEBUG
 
@@ -129,5 +145,17 @@ void	print_meta(t_meta *m);
 void	print_point(void *param);
 void	m44_print(float **matrix);
 float	**m44_arr_to_pointer(float matrix[][4]);
+
+// WORLD TRANSFORMATONS
+
+void	rotate_world(t_meta *m, float angle, char axis);
+void	scale_world(t_meta *m, float x, float y, float z);
+void	translate_world(t_meta *m, float x, float y, float z);
+
+// CAMERA TRANSFORMATIONS
+
+void	apply_rotate(float ***target, float **rotator, float angle, char axis);
+void	translate_cam(t_meta *m, float x, float y, float z);
+void	rotate_cam(t_meta *m, float angle, char axis);
 
 #endif

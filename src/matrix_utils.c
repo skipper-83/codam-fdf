@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:32:58 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/20 21:21:00 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 11:13:00 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,10 @@ float	**m44_init(void)
 
 	rows = 0;
 	cols = 0;
-	res = ft_calloc(4, sizeof(float *));
-	if (res == NULL)
-		exit_error(ERROR_MEM);
+	res = exit_on_null(ft_calloc(4, sizeof(float *)));
 	while (rows < 4)
 	{
-		res[rows] = ft_calloc(4, sizeof(float));
-		if (res[rows] == NULL)
-			exit_error(ERROR_MEM);
+		res[rows] = exit_on_null(ft_calloc(4, sizeof(float)));
 		while (cols < 4)
 		{
 			if (cols == rows)
@@ -75,9 +71,7 @@ float	**m44_copy(float **matrix)
 
 	rows = 0;
 	cols = 0;
-	res = m44_init();
-	if (res == NULL)
-		exit_error(ERROR_MEM);
+	res = exit_on_null(m44_init());
 	while (rows < 4)
 	{
 		while (cols < 4)
@@ -110,11 +104,9 @@ float	**m44_dot_product(float **m1, float **m2, int free_m1)
 	int		rows;
 	int		cols;
 
-	product = m44_init();
+	product = exit_on_null(m44_init());
 	rows = 0;
 	cols = 0;
-	if (product == NULL)
-		exit_error(ERROR_MEM);
 	while (rows < 4)
 	{
 		while (cols < 4)

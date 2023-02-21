@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:28:29 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/20 23:58:56 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 11:00:46 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
  */
 void	m44_rotate(float **matrix, float angle, char axis)
 {
-	// ft_printf("angle: %f, ft_rad angle %f\n", angle, ft_rad(angle));
 	if (axis == 'x')
 	{
 		matrix[1][1] = cos(ft_rad(angle));

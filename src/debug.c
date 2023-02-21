@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:40:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/15 13:48:03 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/21 11:00:36 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	print_point(void *param)
 	static int	counter;
 
 	point = (t_point *)param;
-	ft_printf("% 3i: % 3i : % 3i : % 3i : %#x; \n", counter++, point->x, point->y, point->z, point->color);
+	ft_printf("% 3i: % 3i : % 3i : % 3i : %#x; \n", \
+		counter++, point->x, point->y, point->z, point->color);
 }
 
 void	print_meta(t_meta *m)

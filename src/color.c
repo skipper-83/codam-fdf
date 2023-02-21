@@ -1,44 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 11:06:28 by albertvanan      ###   ########.fr       */
+/*   Created: 2023/02/21 09:45:32 by albertvanan       #+#    #+#             */
+/*   Updated: 2023/02/21 11:01:23 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <errno.h>
 
-void	free_array(char **arr)
+int	get_red(int color)
 {
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr[i]);
-	free(arr);
+	return ((color >> 24) & 0xFF);
 }
 
-void	exit_error(char *error_msg)
+int	get_green(int color)
 {
-	if (errno == 0)
-		ft_putendl_fd(error_msg, 2);
-	else
-		perror(error_msg);
-	exit (1);
+	return ((color >> 16) & 0xFF);
 }
 
-void	*exit_on_null(void *ptr)
+int	get_blue(int color)
 {
-	if (ptr == NULL)
-		exit_error(ERROR_MEM);
-	return (ptr);
+	return ((color >> 8) & 0xFF);
+}
+
+int	get_alpha(int color)
+{
+	return (color & 0xFF);
+}
+
+int	make_color(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
 }
