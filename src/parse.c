@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 15:58:37 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/22 22:14:37 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ static void	parse_line(char *line, int y, t_meta *m)
 		if (!has_digits(m->point_arr[Z]))
 			exit_error(ERROR_MAP_NUMBERS, m);
 		add_point(m, i + 1, y, m->point_arr);
-		free_array(&m->point_arr);
+		free_array(m->point_arr);
+		m->point_arr = NULL;
 		i++;
 	}
-	free_array(&m->line_arr);
+	free_array(m->line_arr);
+	m->line_arr = NULL;
 	if (m->drawing_w == 0)
 		m->drawing_w = i;
 	if (m->drawing_w != i)
@@ -101,13 +103,14 @@ void	spread_drawing(t_meta *m)
 		m44_multiply_point(m->transformer, point);
 		head = head->next;
 	}
-	coeff = m->drawing_w;
-	if (m->drawing_d * .3 > m->drawing_w)
-		coeff = m->drawing_d * .3;
-	apply_rotate(&m->camera, m->transformer, 180, 'x');
-	apply_rotate(&m->camera, m->transformer, 135, 'z');
-	m44_translate(m->camera, 0, 0, (coeff) * 1.8);
-	// apply_color_scheme(m, weird_purple_colors);
+	reset_cam(m);
+	// coeff = m->drawing_w;
+	// if (m->drawing_d * .3 > m->drawing_w)
+	// 	coeff = m->drawing_d * .3;
+	// apply_rotate(&m->camera, m->transformer, 180, 'x');
+	// apply_rotate(&m->camera, m->transformer, 135, 'z');
+	// m44_translate(m->camera, 0, 0, (coeff) * 1.8);
+	// // apply_color_scheme(m, weird_purple_colors);
 }
 
 void	parse_file(t_meta *m)

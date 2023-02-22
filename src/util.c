@@ -3,37 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 16:04:42 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/22 17:51:23 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <errno.h>
 
-void	free_array(char ***arr)
+void	free_array(char **arr)
 {
 	int	i;
 
-	ft_printf("freeing array: %p ->\n", *arr);
 	i = 0;
-	// while (*(arr)[i])
-	// {
-	// 	free(*(arr)[i]);
-	// 	i++;
-	// 	ft_printf("i %i\n", i);
-	// }
-	free(*arr[i]);
-	free(*arr);
-	*arr = NULL;
-	ft_printf("%p\n", *arr);
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr[i]);
+	free(arr);
 }
 
 void	free_meta(t_meta *m)
 {
-	ft_printf("m->point_arr %p\n", m->point_arr);
 	if (m == NULL)
 		return ;
 	if (m->world)
@@ -43,9 +38,15 @@ void	free_meta(t_meta *m)
 	if (m->transformer)
 		m44_free(m->transformer);
 	if (m->line_arr)
-		free_array(&m->line_arr);
+	{
+		free_array(m->line_arr);
+		m->line_arr = NULL;
+	}
 	if (m->point_arr)
-		free_array(&m->point_arr);
+	{
+		free_array(m->point_arr);
+		m->line_arr = NULL;
+	}
 	ft_lstclear(&(m->points), free);
 	free(m);
 }

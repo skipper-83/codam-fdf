@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/22 15:25:50 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/22 22:54:53 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 			create_new_image(m);
 		}
 	}
-	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_F && keydata.action == MLX_PRESS)
 	{
 		if (m->fade_alpha)
 		{
@@ -78,80 +78,81 @@ void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view, float p)
 	m->mouse_y = y_now;
 }
 
-void	hook(void *param)
+void	frame_hook(void *param)
 {
 	t_meta		*m;
 	float		coeff;
 
 	m = (t_meta *)param;
 	if (mlx_is_key_down(m->mlx, MLX_KEY_COMMA))
-		translate_cam(m, 0, 0, -1);
+		scale_world(m, 0.99, 0.99, 0.99);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_PERIOD))
-		translate_cam(m, 0, 0, 1);
+		scale_world(m, 1.01, 1.01, 1.01);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_UP))
-		rotate_cam(m, .1, 'x');
+		translate_cam(m, 0, 0, -1);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_DOWN))
-		rotate_cam(m, -.1, 'x');
+		translate_cam(m, 0, 0, 1);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT))
-		rotate_cam(m, .1, 'y');
+		rotate_cam(m, 1, 'z');
 	if (mlx_is_key_down(m->mlx, MLX_KEY_RIGHT))
-		rotate_cam(m, -.1, 'y');
+		rotate_cam(m, -1, 'z');
 	if (mlx_is_key_down(m->mlx, MLX_KEY_MINUS))
 		scale_world(m, 1, 1, .99);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_EQUAL))
 		scale_world(m, 1, 1, 1.01);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_W))
-		rotate_world(m, -.1, 'x');
-	if (mlx_is_key_down(m->mlx, MLX_KEY_S))
-		rotate_world(m, .1, 'x');
-	if (mlx_is_key_down(m->mlx, MLX_KEY_A))
-		rotate_world(m, -.1, 'y');
-	if (mlx_is_key_down(m->mlx, MLX_KEY_D))
-		rotate_world(m, .1, 'y');
-	if (mlx_is_key_down(m->mlx, MLX_KEY_L))
-		translate_world(m, .1, 0, 0);
-	if (mlx_is_key_down(m->mlx, MLX_KEY_J))
-		translate_world(m, -.1, 0, 0);
-	if (mlx_is_key_down(m->mlx, MLX_KEY_I))
-		translate_world(m, 0, -.1, 0);
-	if (mlx_is_key_down(m->mlx, MLX_KEY_K))
-		translate_world(m, 0, .1, 0);
-	if (mlx_is_key_down(m->mlx, MLX_KEY_T))
 		translate_cam(m, 0, -.1, 0);
-	if (mlx_is_key_down(m->mlx, MLX_KEY_G))
+	if (mlx_is_key_down(m->mlx, MLX_KEY_S))
 		translate_cam(m, 0, .1, 0);
-	if (mlx_is_key_down(m->mlx, MLX_KEY_F))
+	if (mlx_is_key_down(m->mlx, MLX_KEY_A))
 		translate_cam(m, -.1, 0, 0);
-	if (mlx_is_key_down(m->mlx, MLX_KEY_H))
+	if (mlx_is_key_down(m->mlx, MLX_KEY_D))
 		translate_cam(m, .1, 0, 0);
-	if (mlx_is_key_down(m->mlx, MLX_KEY_SEMICOLON))
-		rotate_cam(m, 1, 'z');
-	if (mlx_is_key_down(m->mlx, MLX_KEY_APOSTROPHE))
-		rotate_cam(m, -1, 'z');
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_L))
+	// 	translate_world(m, .1, 0, 0);
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_J))
+	// 	translate_world(m, -.1, 0, 0);
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_I))
+	// 	translate_world(m, 0, -.1, 0);
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_K))
+	// 	translate_world(m, 0, .1, 0);
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_T))
+	// 	translate_cam(m, 0, -.1, 0);
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_G))
+	// 	translate_cam(m, 0, .1, 0);
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_F))
+	// 	translate_cam(m, -.1, 0, 0);
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_H))
+	// 	translate_cam(m, .1, 0, 0);
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_SEMICOLON))
+	// 	rotate_cam(m, 1, 'z');
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_APOSTROPHE))
+	// 	rotate_cam(m, -1, 'z');
 	if (mlx_is_key_down(m->mlx, MLX_KEY_0))
 	{
-		m44_to_identity_matrix(m->world);
-		m44_to_identity_matrix(m->camera);
-		apply_rotate(&m->camera, m->transformer, 180, 'x');
-		apply_rotate(&m->camera, m->transformer, 135, 'z');
-		coeff = m->drawing_w;
-		if (m->drawing_d * .3 > m->drawing_w)
-			coeff = m->drawing_d * .3;
-		m44_translate(m->camera, 0, 0, (coeff) * 1.8);
-		create_new_image(m);
+		reset_cam(m);
+		// m44_to_identity_matrix(m->world);
+		// m44_to_identity_matrix(m->camera);
+		// apply_rotate(&m->camera, m->transformer, 180, 'x');
+		// apply_rotate(&m->camera, m->transformer, 135, 'z');
+		// coeff = m->drawing_w;
+		// if (m->drawing_d * .3 > m->drawing_w)
+		// 	coeff = m->drawing_d * .3;
+		// m44_translate(m->camera, 0, 0, (coeff) * 1.8);
+		// create_new_image(m);
 	}
-	if (mlx_is_key_down(m->mlx, MLX_KEY_9))
-	{
-		m44_to_identity_matrix(m->world);
-		m44_to_identity_matrix(m->camera);
-		coeff = m->drawing_w;
-		if (m->drawing_d * .3 > m->drawing_w)
-			coeff = m->drawing_d * .3;
-		m44_translate(m->camera, 0, 0, -2 * (coeff));
-		apply_rotate(&m->camera, m->transformer, 60, 'x');
-		apply_rotate(&m->camera, m->transformer, -60, 'y');
-		create_new_image(m);
-	}
+	// if (mlx_is_key_down(m->mlx, MLX_KEY_9))
+	// {
+	// 	m44_to_identity_matrix(m->world);
+	// 	m44_to_identity_matrix(m->camera);
+	// 	coeff = m->drawing_w;
+	// 	if (m->drawing_d * .3 > m->drawing_w)
+	// 		coeff = m->drawing_d * .3;
+	// 	m44_translate(m->camera, 0, 0, -2 * (coeff));
+	// 	apply_rotate(&m->camera, m->transformer, 60, 'x');
+	// 	apply_rotate(&m->camera, m->transformer, -60, 'y');
+	// 	create_new_image(m);
+	// }
 	if (mlx_is_mouse_down(m->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
 		if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT_SUPER))
@@ -165,7 +166,7 @@ void	hook(void *param)
 
 void handle_resize(int width, int height, void* param)
 {
-	t_meta *m;
+	t_meta	*m;
 
 	m = (t_meta *)param;
 	m->window_h = height;
@@ -249,11 +250,11 @@ int32_t	main(int argc, char **argv)
 	m->img = mlx_new_image(m->mlx, WIDTH, HEIGHT);
 	// ft_memset(m->img->pixels, 255, WIDTH * HEIGHT * sizeof(int));
 	mlx_image_to_window(m->mlx, m->img, 0, 0);
-	mlx_mouse_hook(m->mlx, &handle_mouse, m);
+	mlx_mouse_hook(m->mlx, handle_mouse, m);
 	mlx_resize_hook(m->mlx, handle_resize, m);
 	mlx_scroll_hook(m->mlx, handle_scroll, m);
 	mlx_key_hook(m->mlx, key_hook, m);
-	mlx_loop_hook(m->mlx, &hook, m);
+	mlx_loop_hook(m->mlx, frame_hook, m);
 	mlx_loop(m->mlx);
 	mlx_terminate(m->mlx);
 	free_meta(m);

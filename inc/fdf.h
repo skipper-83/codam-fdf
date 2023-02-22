@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 15:58:12 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/22 22:14:21 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ float	**m44_invert(float **input, t_meta *m);
 
 // UTIL
 
-void	free_array(char ***arr);
+void	free_array(char **arr);
 void	exit_error(char *error_msg, t_meta *m);
 void	*exit_on_null(void *ptr, t_meta *m44_init);
 void	free_meta(t_meta *m);
@@ -171,6 +171,7 @@ void	update_rotation_var(t_angle *rotation_var, float angle, char axis);
 void	apply_rotate(float ***target, float **rotator, float angle, char axis);
 void	translate_cam(t_meta *m, float x, float y, float z);
 void	rotate_cam(t_meta *m, float angle, char axis);
+void	reset_cam(t_meta *m);
 
 // COLOR SCHEMES
 int		weird_purple_colors(float z);

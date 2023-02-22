@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   point_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:58:20 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/22 15:47:06 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/22 22:18:47 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	fade_alpha_with_z(t_point p, t_pixel *px)
 {
 	int	alpha;
 
-	alpha = 255 - ((p.z * 2.5) - 5);
+	alpha = 255 - ((p.z * 3) - 8);
 	px->color = px->color >> 8;
 	px->color = px->color << 8;
 	if (alpha > 0)
@@ -61,7 +61,8 @@ t_pixel	point_to_pixel_parallel(t_point *point, t_meta *m)
 	y = (y + m->canvas_h / 2) / m->canvas_h;
 	res.x = x * m->window_w;
 	res.y = (1 - y) * m->window_h;
-	res.color = point->color;
+	// res.color = point->color;
+	res.color = weird_purple_colors(point->z);
 	res.enabled = 1;
 	return (res);
 }

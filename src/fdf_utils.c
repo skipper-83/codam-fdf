@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:43:16 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 15:46:00 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/22 22:38:36 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_meta	*init_meta(char *filename)
 	m->window_h = HEIGHT;
 	m->canvas_w = m->window_w / 100.0;
 	m->canvas_h = m->window_h / 100.0;
-	ft_printf("canvas h: %f\n", m->canvas_h);
+	// ft_printf("canvas h: %f\n", m->canvas_h);
 	return (m);
 }
 

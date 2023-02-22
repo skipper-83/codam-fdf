@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_transformations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:38:32 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 15:41:13 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/22 22:37:29 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ void	rotate_cam(t_meta *m, float angle, char axis)
 	if (m->camera == NULL)
 		exit_error(ERROR_MEM, m);
 	update_rotation_var(&m->cam_rotation, angle, axis);
-	ft_printf("rotations: %f, %f\n", m->cam_rotation.x, m->cam_rotation.y);
+	create_new_image(m);
+}
+
+void	reset_cam(t_meta *m)
+{
+	float	coeff;
+	int		z_rotate;
+
+	m44_to_identity_matrix(m->world);
+	m44_to_identity_matrix(m->camera);
+	z_rotate = 135;
+	if (m->projection == PARALLEL)
+		z_rotate = 315;
+	apply_rotate(&m->camera, m->transformer, 180, 'x');
+	m->cam_rotation.x = 180;
+	apply_rotate(&m->camera, m->transformer, z_rotate, 'z');
+	m->cam_rotation.z = z_rotate;
+	coeff = m->drawing_w;
+	if (m->drawing_d * .3 > m->drawing_w)
+		coeff = m->drawing_d * .3;
+	m44_translate(m->camera, 0, 0, (coeff) * 1.8);
 	create_new_image(m);
 }
