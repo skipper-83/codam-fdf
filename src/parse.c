@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 22:14:37 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 23:04:27 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	add_point(t_meta *m, int x, int y, char **point_arr)
 		m->max_z = point->z;
 	if (point->z < m->min_z)
 		m->min_z = point->z;
-	point->m = m;
+	// point->m = m;
 	new = exit_on_null(ft_lstnew(point), m);
 	ft_lstadd_front(&(m->points), new);
 }

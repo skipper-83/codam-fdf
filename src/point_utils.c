@@ -6,11 +6,13 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:58:20 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/22 22:18:47 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 23:09:01 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static void	copy_point(t_point *src, t_point *dst);
 
 /**
  * @brief	Multiply a point (3 dimension vector) by a 4x4 matrix
@@ -32,17 +34,6 @@ void	m44_multiply_point(float **m, t_point *p)
 	p->z = z;
 }
 
-void	fade_alpha_with_z(t_point p, t_pixel *px)
-{
-	int	alpha;
-
-	alpha = 255 - ((p.z * 3) - 8);
-	px->color = px->color >> 8;
-	px->color = px->color << 8;
-	if (alpha > 0)
-		px->color += alpha;
-}
-
 t_pixel	point_to_pixel_parallel(t_point *point, t_meta *m)
 {
 	t_point	point_tf;
@@ -51,9 +42,7 @@ t_pixel	point_to_pixel_parallel(t_point *point, t_meta *m)
 	float	y;
 	float	z;
 
-	point_tf.x = point->x;
-	point_tf.y = point->y;
-	point_tf.z = point->z;
+	copy_point(point, &point_tf);
 	m44_multiply_point(m->transformer, &point_tf);
 	x = (point_tf.x - point_tf.y * cos(ft_rad(30))) / 15;
 	y = ((-point_tf.z + point_tf.y + point_tf.x) * sin(ft_rad(30))) / 15;
@@ -61,8 +50,10 @@ t_pixel	point_to_pixel_parallel(t_point *point, t_meta *m)
 	y = (y + m->canvas_h / 2) / m->canvas_h;
 	res.x = x * m->window_w;
 	res.y = (1 - y) * m->window_h;
-	// res.color = point->color;
-	res.color = weird_purple_colors(point->z);
+	if (m->color_scheme)
+		res.color = m->color_scheme(point->z);
+	else
+		res.color = point->color;
 	res.enabled = 1;
 	return (res);
 }
@@ -75,9 +66,7 @@ t_pixel	point_to_pixel_perspective(t_point *point, t_meta *m)
 	float	y;
 	float	z;
 
-	point_transformed.x = point->x;
-	point_transformed.y = point->y;
-	point_transformed.z = point->z;
+	copy_point(point, &point_transformed);
 	m44_multiply_point(m->transformer, &point_transformed);
 	x = point_transformed.x / -point_transformed.z;
 	y = point_transformed.y / -point_transformed.z;
@@ -85,7 +74,10 @@ t_pixel	point_to_pixel_perspective(t_point *point, t_meta *m)
 	y = (y + m->canvas_h / 2) / m->canvas_h;
 	res.x = x * m->window_w;
 	res.y = (1 - y) * m->window_h;
-	res.color = weird_purple_colors(point->z);
+	if (m->color_scheme)
+		res.color = m->color_scheme(point->z);
+	else
+		res.color = point->color;
 	if (m->fade_alpha)
 		fade_alpha_with_z(point_transformed, &res);
 	res.enabled = 1;
@@ -119,4 +111,12 @@ t_pixel	*points_to_pixels(t_meta *m)
 	}
 	m44_free(inverse);
 	return (res);
+}
+
+static void	copy_point(t_point *src, t_point *dst)
+{
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->z = src->z;
+	dst->color = src->color;
 }

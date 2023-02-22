@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 22:14:21 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 23:22:57 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +45,36 @@ typedef struct s_angle
 	float	z;
 }	t_angle;
 
+typedef int	(*t_color_scheme)(float z);
+
 typedef struct s_meta{
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_list		*points;
-	char		**line_arr;
-	char		**point_arr;
-	int			drawing_h;
-	int			drawing_w;
-	int			drawing_d;
-	int			window_w;
-	int			window_h;
-	float		canvas_w;
-	float		canvas_h;
-	int			total_px;
-	int			max_z;
-	int			min_z;
-	char		projection;
-	char		*filename;
-	float		**world;
-	float		**camera;
-	float		**transformer;
-	int			mouse_x;
-	int			mouse_y;
-	t_angle		cam_rotation;
-	t_angle		world_rotation;
-	char		fade_alpha;
-	char		is_rendered;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_list			*points;
+	char			**line_arr;
+	char			**point_arr;
+	int				drawing_h;
+	int				drawing_w;
+	int				drawing_d;
+	int				window_w;
+	int				window_h;
+	float			canvas_w;
+	float			canvas_h;
+	int				total_px;
+	int				max_z;
+	int				min_z;
+	char			projection;
+	char			*filename;
+	float			**world;
+	float			**camera;
+	float			**transformer;
+	int				mouse_x;
+	int				mouse_y;
+	t_angle			cam_rotation;
+	t_angle			world_rotation;
+	char			fade_alpha;
+	t_color_scheme	color_scheme;
+	char			is_rendered;
 }	t_meta;
 
 typedef struct s_pixel{
@@ -86,7 +89,7 @@ typedef struct s_point{
 	float		y;
 	float		z;
 	int			color;
-	t_meta		*m;
+	// t_meta		*m;
 }	t_point;
 
 typedef struct s_line{
@@ -173,8 +176,17 @@ void	translate_cam(t_meta *m, float x, float y, float z);
 void	rotate_cam(t_meta *m, float angle, char axis);
 void	reset_cam(t_meta *m);
 
+// HOOKS
+
+void	handle_key(mlx_key_data_t keydata, void *param);
+void	handle_scroll(double xdelta, double ydelta, void *param);
+void	handle_resize(int width, int height, void *param);
+
 // COLOR SCHEMES
+
 int		weird_purple_colors(float z);
 int		minecraft_colors(float z);
+void	fade_alpha_with_z(t_point p, t_pixel *px);
+void	cycle_colorschemes(t_meta *m);
 
 #endif

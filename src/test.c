@@ -6,48 +6,14 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/22 22:54:53 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 23:23:13 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <errno.h>
 
-void	key_hook(mlx_key_data_t keydata, void *param)
-{
-	t_meta	*m;
 
-	m = (t_meta *)param;
-	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
-	{
-		if (m->projection == PARALLEL)
-		{
-			apply_rotate(&m->camera, m->transformer, 180, 'z');
-			m->projection = PERSPECTIVE;
-			create_new_image(m);
-		}
-		else
-		{
-			apply_rotate(&m->camera, m->transformer, 180, 'z');
-			m->projection = PARALLEL;
-			create_new_image(m);
-		}
-	}
-	if (keydata.key == MLX_KEY_F && keydata.action == MLX_PRESS)
-	{
-		if (m->fade_alpha)
-		{
-			m->fade_alpha = 0;
-			create_new_image(m);
-		}
-		else
-		{
-			m->fade_alpha = 1;
-			create_new_image(m);
-		}
-	}
-
-}
 
 void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view, float p)
 {
@@ -77,6 +43,8 @@ void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view, float p)
 	m->mouse_x = x_now;
 	m->mouse_y = y_now;
 }
+
+
 
 void	frame_hook(void *param)
 {
@@ -108,51 +76,6 @@ void	frame_hook(void *param)
 		translate_cam(m, -.1, 0, 0);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_D))
 		translate_cam(m, .1, 0, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_L))
-	// 	translate_world(m, .1, 0, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_J))
-	// 	translate_world(m, -.1, 0, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_I))
-	// 	translate_world(m, 0, -.1, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_K))
-	// 	translate_world(m, 0, .1, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_T))
-	// 	translate_cam(m, 0, -.1, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_G))
-	// 	translate_cam(m, 0, .1, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_F))
-	// 	translate_cam(m, -.1, 0, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_H))
-	// 	translate_cam(m, .1, 0, 0);
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_SEMICOLON))
-	// 	rotate_cam(m, 1, 'z');
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_APOSTROPHE))
-	// 	rotate_cam(m, -1, 'z');
-	if (mlx_is_key_down(m->mlx, MLX_KEY_0))
-	{
-		reset_cam(m);
-		// m44_to_identity_matrix(m->world);
-		// m44_to_identity_matrix(m->camera);
-		// apply_rotate(&m->camera, m->transformer, 180, 'x');
-		// apply_rotate(&m->camera, m->transformer, 135, 'z');
-		// coeff = m->drawing_w;
-		// if (m->drawing_d * .3 > m->drawing_w)
-		// 	coeff = m->drawing_d * .3;
-		// m44_translate(m->camera, 0, 0, (coeff) * 1.8);
-		// create_new_image(m);
-	}
-	// if (mlx_is_key_down(m->mlx, MLX_KEY_9))
-	// {
-	// 	m44_to_identity_matrix(m->world);
-	// 	m44_to_identity_matrix(m->camera);
-	// 	coeff = m->drawing_w;
-	// 	if (m->drawing_d * .3 > m->drawing_w)
-	// 		coeff = m->drawing_d * .3;
-	// 	m44_translate(m->camera, 0, 0, -2 * (coeff));
-	// 	apply_rotate(&m->camera, m->transformer, 60, 'x');
-	// 	apply_rotate(&m->camera, m->transformer, -60, 'y');
-	// 	create_new_image(m);
-	// }
 	if (mlx_is_mouse_down(m->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
 		if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT_SUPER))
@@ -162,18 +85,6 @@ void	frame_hook(void *param)
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(m->mlx);
-}
-
-void handle_resize(int width, int height, void* param)
-{
-	t_meta	*m;
-
-	m = (t_meta *)param;
-	m->window_h = height;
-	m->window_w = width;
-	m->canvas_h = height / 100.0;
-	m->canvas_w = width / 100.0;
-	create_new_image(m);
 }
 
 void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
@@ -222,17 +133,6 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 	}
 }
 
-void handle_scroll(double xdelta, double ydelta, void* param)
-{
-	t_meta	*m;
-
-	m = (t_meta *)param;
-	if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT_SUPER))
-		translate_cam(m, 0, 0, (float)ydelta / 10.0);
-	else
-		translate_cam(m, 0, 0, ydelta);
-}
-
 void	f(void)
 {
 	system("leaks fdf");
@@ -253,7 +153,7 @@ int32_t	main(int argc, char **argv)
 	mlx_mouse_hook(m->mlx, handle_mouse, m);
 	mlx_resize_hook(m->mlx, handle_resize, m);
 	mlx_scroll_hook(m->mlx, handle_scroll, m);
-	mlx_key_hook(m->mlx, key_hook, m);
+	mlx_key_hook(m->mlx, handle_key, m);
 	mlx_loop_hook(m->mlx, frame_hook, m);
 	mlx_loop(m->mlx);
 	mlx_terminate(m->mlx);
