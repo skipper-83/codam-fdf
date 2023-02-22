@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_inverse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:09:52 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 11:11:38 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 15:46:42 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static void	reduce_above_diagnonal(float **matrix, float **inverse);
  * @param input 
  * @return float** 
  */
-float	**m44_invert(float **input)
+float	**m44_invert(float **input, t_meta *m)
 {
 	float	**matrix;
 	float	**inverse;
 	int		cols;
 
-	matrix = exit_on_null(m44_copy(input));
-	inverse = exit_on_null(m44_init());
+	matrix = exit_on_null(m44_copy(input), m);
+	inverse = exit_on_null(m44_init(), m);
 	cols = 0;
 	while (cols < 4)
 	{

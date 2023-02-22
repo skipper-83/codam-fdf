@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:43:16 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 22:15:16 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 15:46:00 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ t_meta	*init_meta(char *filename)
 {
 	t_meta	*m;
 
-	m = exit_on_null(ft_calloc(1, sizeof(t_meta)));
+	m = exit_on_null(ft_calloc(1, sizeof(t_meta)), NULL);
 	m->mlx = mlx_init(WIDTH, HEIGHT, WINDOW_NAME, true);
 	if (m->mlx == NULL)
-		exit_error(ERROR_MLX);
+		exit_error(ERROR_MLX, m);
 	m->filename = filename;
 	m->max_z = INT32_MIN;
 	m->min_z = INT32_MAX;
-	m->world = exit_on_null(m44_init());
-	m->camera = exit_on_null(m44_init());
-	m->transformer = exit_on_null(m44_init());
+	m->world = exit_on_null(m44_init(), m);
+	m->camera = exit_on_null(m44_init(), m);
+	m->transformer = exit_on_null(m44_init(), m);
 	m->window_w = WIDTH;
 	m->window_h = HEIGHT;
 	m->canvas_w = m->window_w / 100.0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:32:58 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 11:13:00 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 15:45:35 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ float	**m44_init(void)
 
 	rows = 0;
 	cols = 0;
-	res = exit_on_null(ft_calloc(4, sizeof(float *)));
+	res = ft_calloc(4, sizeof(float *));
+	if (res == NULL)
+		return (NULL);
 	while (rows < 4)
 	{
-		res[rows] = exit_on_null(ft_calloc(4, sizeof(float)));
+		res[rows] = ft_calloc(4, sizeof(float));
+		if (res[rows] == NULL)
+			return (m44_free(res), NULL);
 		while (cols < 4)
 		{
 			if (cols == rows)
@@ -52,9 +56,10 @@ void	m44_free(float **matrix)
 	int	rows;
 
 	rows = 0;
-	while (rows < 4)
+	while (matrix[rows] && rows < 4)
 		free(matrix[rows++]);
 	free (matrix);
+	matrix = NULL;
 }
 
 /**
@@ -71,7 +76,7 @@ float	**m44_copy(float **matrix)
 
 	rows = 0;
 	cols = 0;
-	res = exit_on_null(m44_init());
+	res = m44_init();
 	while (rows < 4)
 	{
 		while (cols < 4)
@@ -104,7 +109,7 @@ float	**m44_dot_product(float **m1, float **m2, int free_m1)
 	int		rows;
 	int		cols;
 
-	product = exit_on_null(m44_init());
+	product = m44_init();
 	rows = 0;
 	cols = 0;
 	while (rows < 4)

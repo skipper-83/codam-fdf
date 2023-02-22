@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 23:22:27 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 15:58:12 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_meta{
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_list		*points;
+	char		**line_arr;
+	char		**point_arr;
 	int			drawing_h;
 	int			drawing_w;
 	int			drawing_d;
@@ -101,13 +103,14 @@ typedef struct s_line{
 
 void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);
-float	**m44_invert(float **input);
+float	**m44_invert(float **input, t_meta *m);
 
 // UTIL
 
-void	free_array(char **arr);
-void	exit_error(char *error_msg);
-void	*exit_on_null(void *ptr);
+void	free_array(char ***arr);
+void	exit_error(char *error_msg, t_meta *m);
+void	*exit_on_null(void *ptr, t_meta *m44_init);
+void	free_meta(t_meta *m);
 
 // MATRIX TRANSFORMATIONS
 
@@ -168,5 +171,9 @@ void	update_rotation_var(t_angle *rotation_var, float angle, char axis);
 void	apply_rotate(float ***target, float **rotator, float angle, char axis);
 void	translate_cam(t_meta *m, float x, float y, float z);
 void	rotate_cam(t_meta *m, float angle, char axis);
+
+// COLOR SCHEMES
+int		weird_purple_colors(float z);
+int		minecraft_colors(float z);
 
 #endif

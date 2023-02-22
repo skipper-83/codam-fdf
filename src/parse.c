@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 23:24:37 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 15:58:37 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@ static int	has_digits(char *str)
 	return (0);
 }
 
-
 static void	add_point(t_meta *m, int x, int y, char **point_arr)
 {
 	t_list	*new;
 	t_point	*point;
 
-	point = exit_on_null(malloc(sizeof(t_point)));
+	point = exit_on_null(malloc(sizeof(t_point)), m);
 	point->x = x;
 	point->y = y;
 	point->z = ft_atoi(point_arr[Z]);
@@ -45,91 +44,30 @@ static void	add_point(t_meta *m, int x, int y, char **point_arr)
 	if (point->z < m->min_z)
 		m->min_z = point->z;
 	point->m = m;
-	new = ft_lstnew(point);
-	if (new == NULL)
-		exit_error(ERROR_MEM);
+	new = exit_on_null(ft_lstnew(point), m);
 	ft_lstadd_front(&(m->points), new);
 }
 
 static void	parse_line(char *line, int y, t_meta *m)
 {
-	char		**line_arr;
-	char		**point_arr;
 	int			i;
 
-	line_arr = exit_on_null(ft_split(line, ' '));
+	m->line_arr = exit_on_null(ft_split(line, ' '), m);
 	i = 0;
-	while (line_arr[i] && line_arr[i][0] != '\n')
+	while (m->line_arr[i] && m->line_arr[i][0] != '\n')
 	{
-		point_arr = exit_on_null(ft_split(line_arr[i], ','));
-		if (!has_digits(point_arr[Z]))
-			exit_error(ERROR_MAP_NUMBERS);
-		add_point(m, i + 1, y, point_arr);
-		free_array(point_arr);
+		m->point_arr = exit_on_null(ft_split(m->line_arr[i], ','), m);
+		if (!has_digits(m->point_arr[Z]))
+			exit_error(ERROR_MAP_NUMBERS, m);
+		add_point(m, i + 1, y, m->point_arr);
+		free_array(&m->point_arr);
 		i++;
 	}
+	free_array(&m->line_arr);
 	if (m->drawing_w == 0)
 		m->drawing_w = i;
 	if (m->drawing_w != i)
-		exit_error(ERROR_MAP_SQUARE);
-	free_array(line_arr);
-}
-
-// float	map_coeff(float x, float in_min, float in_max)
-// {
-// 	return ((x - in_min) / (in_max - in_min));
-// }
-
-// void	rotate_cam(t_meta *m, float angle, char axis);
-
-int	weird_purple_colors(float z)
-{
-	if (z > 100)
-		return (0xFFDF8DFF);
-	if (z > 75)
-		return (0xFFDE7AFF);
-	if (z > 50)
-		return (0xFFC568FF);
-	if (z > 25)
-		return (0xFD996BFF);
-	if (z > 15)
-		return (0xF7856CFF);
-	if (z > 10)
-		return (0xF06E6CFF);
-	if (z > 5)
-		return (0xD9576BFF);
-	if (z > 0)
-		return (0xA44369FF);
-	if (z > -10)
-		return (0x833F68FF);
-	if (z > -20)
-		return (0x833F68FF);
-	if (z > -50)
-		return (0x5E3C65FF);
-	return (0x3F3A63FF);
-}
-
-int	minecraft_colors(float z)
-{
-	if (z > 70)
-		return (0xE9EAF0FF);
-	if (z > 62)
-		return (0xC4C1BDFF);
-	if (z > 50)
-		return (0x4C591AFF);
-	if (z > 10)
-		return (0x4C591AFF);
-	if (z > 1)
-		return (0x4D5E36FF);
-	if (z > 0)
-		return (0xD8D19CFF);
-	if (z > -5)
-		return (0x444CC6FF);
-	if (z > -10)
-		return (0x2A2EAEFF);
-	if (z > -30)
-		return (0x3D497CFF);
-	return (0x05093dFF);
+		exit_error(ERROR_MAP_SQUARE, m);
 }
 
 void	apply_color_scheme(t_meta *m, int (*scheme)(float z))
@@ -181,7 +119,7 @@ void	parse_file(t_meta *m)
 	y = 0;
 	fd = open(m->filename, O_RDONLY);
 	if (fd < 0)
-		exit_error(ERROR_PATH);
+		exit_error(ERROR_PATH, m);
 	line = get_next_line(fd);
 	while (line)
 	{

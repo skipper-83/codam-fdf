@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   point_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:58:20 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/21 23:34:52 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 15:47:06 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_pixel	point_to_pixel_perspective(t_point *point, t_meta *m)
 	y = (y + m->canvas_h / 2) / m->canvas_h;
 	res.x = x * m->window_w;
 	res.y = (1 - y) * m->window_h;
-	res.color = point->color;
+	res.color = weird_purple_colors(point->z);
 	if (m->fade_alpha)
 		fade_alpha_with_z(point_transformed, &res);
 	res.enabled = 1;
@@ -103,9 +103,10 @@ t_pixel	*points_to_pixels(t_meta *m)
 	head = m->points;
 	res = malloc(sizeof(t_pixel) * (m->total_px));
 	i = m->total_px - 1;
-	inverse = exit_on_null(m44_invert(m->camera));
+	inverse = exit_on_null(m44_invert(m->camera, m), m);
 	m44_free(m->transformer);
-	m->transformer = exit_on_null(m44_dot_product(m->world, inverse, KEEP_M1));
+	m->transformer = \
+				exit_on_null(m44_dot_product(m->world, inverse, KEEP_M1), m);
 	while (i >= 0)
 	{
 		if (m->projection == PERSPECTIVE)

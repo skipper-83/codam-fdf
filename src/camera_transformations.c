@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_transformations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:38:32 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 23:00:44 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 15:41:13 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	apply_rotate(float ***target, float **rotator, float angle, char axis)
 {
 	m44_to_identity_matrix(rotator);
 	m44_rotate(rotator, angle, axis);
-	*target = exit_on_null(m44_dot_product(*target, rotator, FREE_M1));
+	*target = m44_dot_product(*target, rotator, FREE_M1);
 }
 
 void	translate_cam(t_meta *m, float x, float y, float z)
@@ -38,6 +38,8 @@ void	translate_cam(t_meta *m, float x, float y, float z)
 void	rotate_cam(t_meta *m, float angle, char axis)
 {
 	apply_rotate(&m->camera, m->transformer, angle, axis);
+	if (m->camera == NULL)
+		exit_error(ERROR_MEM, m);
 	update_rotation_var(&m->cam_rotation, angle, axis);
 	ft_printf("rotations: %f, %f\n", m->cam_rotation.x, m->cam_rotation.y);
 	create_new_image(m);

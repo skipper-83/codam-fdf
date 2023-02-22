@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/21 23:41:40 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/22 15:25:50 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 
 }
 
-void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view)
+void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view, float p)
 {
 	int			x_now;
 	int			y_now;
@@ -58,8 +58,8 @@ void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view)
 
 	draw = 0;
 	mlx_get_mouse_pos(m->mlx, &x_now, &y_now);
-	angle.x = (y_now - m->mouse_y) / 5;
-	angle.y = -(x_now - m->mouse_x) / 5;
+	angle.x = (y_now - m->mouse_y) / p;
+	angle.y = -(x_now - m->mouse_x) / p;
 	if (m->mouse_x && angle.x)
 	{
 		rotation_axis->x += angle.x;
@@ -154,10 +154,10 @@ void	hook(void *param)
 	}
 	if (mlx_is_mouse_down(m->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
-		if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT_SHIFT))
-			mouse_rotate(m, &m->world_rotation, &m->world);
+		if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT_SUPER))
+			mouse_rotate(m, &m->world_rotation, &m->camera, 20);
 		else
-			mouse_rotate(m, &m->cam_rotation, &m->camera);
+			mouse_rotate(m, &m->cam_rotation, &m->camera, 5);
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(m->mlx);
@@ -173,8 +173,6 @@ void handle_resize(int width, int height, void* param)
 	m->canvas_h = height / 100.0;
 	m->canvas_w = width / 100.0;
 	create_new_image(m);
-	ft_printf("Resized!!\n");
-	
 }
 
 void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
@@ -183,23 +181,14 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 	static t_pixel	pix1;
 	static t_pixel	pix2;
 	static int		count;
-	// mlx_image_t		*new;
-	// static t_pixel			*map;
 
-	// ft_printf("mod: %i, action: %i\n", mod, a);
 	m = (t_meta *)param;
 	if (b == MLX_MOUSE_BUTTON_LEFT && a == MLX_PRESS)
 	{
-		// ft_printf("left click\n");
-		// m->cam_rotation.x++;
-		// ft_printf("Cam rotation: %f", m->cam_rotation.x);
 		if (mod == 0)
 		{
-			// ft_printf("is rendered? %i\n", m->is_rendered)
-			// mlx_put_string(m->mlx, "test\ntest 1\ntest 2\n", 0, 0);
 			if (!m->is_rendered)
 			{
-				// ft_printf("rendeing\n");
 				parse_file(m);
 				m->is_rendered = 1;
 				create_new_image(m);
@@ -209,14 +198,12 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 		{
 			if (! (count++ % 2))
 			{
-				ft_printf("mouse count: %i\n", count);
 				mlx_get_mouse_pos(m->mlx, &pix1.x, &pix1.y);
 				pix1.color = 0xFF0000FF;
 				mlx_put_pixel(m->img, pix1.x, pix1.y, 0XFF0000FF);
 			}
 			else
 			{
-				ft_printf("mouse count: %i - drawing\n", count);
 				mlx_get_mouse_pos(m->mlx, &pix2.x, &pix2.y);
 				mlx_put_pixel(m->img, pix2.x, pix2.y, 0XFF0000FF);
 				pix2.color = 0xFF0000FF;
@@ -231,8 +218,18 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 	{
 		m->mouse_y = 0;
 		m->mouse_x = 0;
-		// ft_printf("released!\n");
 	}
+}
+
+void handle_scroll(double xdelta, double ydelta, void* param)
+{
+	t_meta	*m;
+
+	m = (t_meta *)param;
+	if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT_SUPER))
+		translate_cam(m, 0, 0, (float)ydelta / 10.0);
+	else
+		translate_cam(m, 0, 0, ydelta);
 }
 
 void	f(void)
@@ -247,22 +244,19 @@ int32_t	main(int argc, char **argv)
 	atexit(f);
 	errno = 0;
 	if (argc != 2)
-		exit_error(ERROR_NO_MAP);
+		exit_error(ERROR_NO_MAP, m);
 	m = init_meta(argv[1]);
 	m->img = mlx_new_image(m->mlx, WIDTH, HEIGHT);
 	// ft_memset(m->img->pixels, 255, WIDTH * HEIGHT * sizeof(int));
 	mlx_image_to_window(m->mlx, m->img, 0, 0);
 	mlx_mouse_hook(m->mlx, &handle_mouse, m);
 	mlx_resize_hook(m->mlx, handle_resize, m);
+	mlx_scroll_hook(m->mlx, handle_scroll, m);
 	mlx_key_hook(m->mlx, key_hook, m);
 	mlx_loop_hook(m->mlx, &hook, m);
 	mlx_loop(m->mlx);
 	mlx_terminate(m->mlx);
-	ft_lstclear(&(m->points), free);
-	m44_free(m->world);
-	m44_free(m->camera);
-	m44_free(m->transformer);
-	free(m);
+	free_meta(m);
 
 	return (EXIT_SUCCESS);
 }
