@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/22 23:23:13 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/23 01:21:20 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view, float p)
 
 	draw = 0;
 	mlx_get_mouse_pos(m->mlx, &x_now, &y_now);
-	angle.x = (y_now - m->mouse_y) / p;
-	angle.y = -(x_now - m->mouse_x) / p;
+	angle.x = -(y_now - m->mouse_y) / p;
+	angle.y = (x_now - m->mouse_x) / p;
 	if (m->mouse_x && angle.x)
 	{
 		rotation_axis->x += angle.x;
@@ -79,9 +79,9 @@ void	frame_hook(void *param)
 	if (mlx_is_mouse_down(m->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
 		if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT_SUPER))
-			mouse_rotate(m, &m->world_rotation, &m->camera, 20);
-		else
 			mouse_rotate(m, &m->cam_rotation, &m->camera, 5);
+		else
+			mouse_rotate(m, &m->world_rotation, &m->world, 5);
 	}
 	if (mlx_is_key_down(m->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(m->mlx);
@@ -101,9 +101,33 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 		{
 			if (!m->is_rendered)
 			{
+				int		x_pos;
+				int		y_pos;
+				mlx_image_t *img;
+
+				x_pos = m->window_w - 300;
+				y_pos = 50;
 				parse_file(m);
 				m->is_rendered = 1;
+				free_strings_list(m);
 				create_new_image(m);
+				m->strings = ft_lstnew(mlx_put_string(m->mlx, "CONTROLS", x_pos, y_pos));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "x/y rotate: mouse [+ CMD]", x_pos, y_pos + 30)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "z-rotate: arrow l/r", x_pos, y_pos + 50)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "zoom: scroll | arrow u/d", x_pos, y_pos + 70)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "x/y-trans: wsad", x_pos, y_pos + 90)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "scale z: +/-", x_pos, y_pos + 110)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "scale: </>", x_pos, y_pos + 130)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "reset cam: 0", x_pos, y_pos + 150)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "parallel / perspective: p", x_pos, y_pos + 170)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "fade to vanish: f", x_pos, y_pos + 190)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "cycle colors: c", x_pos, y_pos + 210)));
+				ft_lstadd_front(&m->strings, ft_lstnew(mlx_new_image(m->mlx, 290, 250)));
+				img = (mlx_image_t *)m->strings->content;
+				ft_memset(img->pixels, 0xFFFFFF44, 290 * 250 * sizeof(int));
+				mlx_image_to_window(m->mlx, img, x_pos - 10, y_pos - 8);
+
+				
 			}
 		}
 		if (mod == 8)
@@ -121,7 +145,7 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 				pix2.color = 0xFF0000FF;
 				pix1.enabled = 1;
 				pix2.enabled = 1;
-				draw_line(m->img, pix1, pix2);
+				draw_line(m, m->img, pix1, pix2);
 				count = 0;
 			}
 		}
@@ -147,15 +171,17 @@ int32_t	main(int argc, char **argv)
 	if (argc != 2)
 		exit_error(ERROR_NO_MAP, m);
 	m = init_meta(argv[1]);
-	m->img = mlx_new_image(m->mlx, WIDTH, HEIGHT);
+	// m->img = mlx_new_image(m->mlx, WIDTH, HEIGHT);
 	// ft_memset(m->img->pixels, 255, WIDTH * HEIGHT * sizeof(int));
-	mlx_image_to_window(m->mlx, m->img, 0, 0);
+	// mlx_image_to_window(m->mlx, m->img, 0, 0);
+	m->strings = ft_lstnew(mlx_put_string(m->mlx, "Left click to start", m->window_w / 2 - 100, m->window_h / 2 - 20));
 	mlx_mouse_hook(m->mlx, handle_mouse, m);
 	mlx_resize_hook(m->mlx, handle_resize, m);
 	mlx_scroll_hook(m->mlx, handle_scroll, m);
 	mlx_key_hook(m->mlx, handle_key, m);
 	mlx_loop_hook(m->mlx, frame_hook, m);
 	mlx_loop(m->mlx);
+	free_strings_list(m);
 	mlx_terminate(m->mlx);
 	free_meta(m);
 

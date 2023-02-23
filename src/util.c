@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 17:51:23 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/23 00:25:55 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@ void	free_array(char **arr)
 	}
 	free(arr[i]);
 	free(arr);
+}
+
+void	free_strings_list(t_meta *m)
+{
+	t_list	*head;
+	t_list	*next;
+
+	head = m->strings;
+	while (head)
+	{
+		next = head->next;
+		mlx_delete_image(m->mlx, (mlx_image_t *)head->content);
+		free (head);
+		head = next;
+	}
+	m->strings = NULL;
+
 }
 
 void	free_meta(t_meta *m)

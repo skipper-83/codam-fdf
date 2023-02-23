@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:33:22 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 11:13:20 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/23 00:23:04 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
  * @param img 
  * @param pixel 
  */
-void	put_pixel_safe(mlx_image_t *img, t_pixel pixel)
+void	put_pixel_safe(t_meta *m, mlx_image_t *img, t_pixel pixel)
 {
 	if (!pixel.enabled)
 		return ;
-	if (pixel.x >= 0 && pixel.x < WIDTH)
-		if (pixel.y >= 0 && pixel.y < HEIGHT)
+	if (pixel.x >= 0 && pixel.x < m->window_w)
+		if (pixel.y >= 0 && pixel.y < m->window_h)
 			mlx_put_pixel(img, pixel.x, pixel.y, pixel.color);
 }
 
@@ -49,9 +49,9 @@ void	draw_raster(t_pixel *map, t_meta *m, mlx_image_t *img)
 		while (cols < m->drawing_w)
 		{
 			if (cols < m->drawing_w - 1)
-				draw_line(img, map[i], map[i + 1]);
+				draw_line(m, img, map[i], map[i + 1]);
 			if (rows < m->drawing_h - 1)
-				draw_line(img, map[i], map[i + m->drawing_w]);
+				draw_line(m, img, map[i], map[i + m->drawing_w]);
 			i++;
 			cols++;
 		}
@@ -74,7 +74,7 @@ void	draw_pixels(t_pixel *pixel, t_meta *m, mlx_image_t *img)
 	i = 0;
 	while (i < m->total_px)
 	{
-		put_pixel_safe(img, pixel[i]);
+		put_pixel_safe(m, img, pixel[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:43:16 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 22:38:36 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/23 00:32:21 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ void	create_new_image(t_meta *m)
 	t_point		*point;
 	mlx_image_t	*new;
 
-	new = mlx_new_image(m->mlx, WIDTH, HEIGHT);
+	new = mlx_new_image(m->mlx, m->window_w, m->window_h);
 	map = points_to_pixels(m);
 	draw_pixels(map, m, new);
 	draw_raster(map, m, new);
 	mlx_image_to_window(m->mlx, new, 0, 0);
-	mlx_delete_image(m->mlx, m->img);
+	if (m->img)
+		mlx_delete_image(m->mlx, m->img);
 	free(map);
 	m->img = new;
 }

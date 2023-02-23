@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:59 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/21 10:30:36 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/23 00:21:32 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	line_loop(t_line *line, t_pixel *px1);
  * @param px1 
  * @param px2 
  */
-void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
+void	draw_line(t_meta *m, mlx_image_t *img, t_pixel px1, t_pixel px2)
 {
 	t_line	line;
 	t_pixel	buf;
@@ -53,7 +53,7 @@ void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2)
 	i = 0;
 	while (i <= line.longest)
 	{
-		put_pixel_safe(img, px1);
+		put_pixel_safe(m, img, px1);
 		line_loop(&line, &px1);
 		px1.color = delta_color(px1.color, px2.color, line.longest - i);
 		i++;

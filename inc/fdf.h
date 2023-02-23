@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 23:22:57 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/23 00:32:40 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_meta{
 	char			fade_alpha;
 	t_color_scheme	color_scheme;
 	char			is_rendered;
+	t_list			*strings;
 }	t_meta;
 
 typedef struct s_pixel{
@@ -89,7 +90,6 @@ typedef struct s_point{
 	float		y;
 	float		z;
 	int			color;
-	// t_meta		*m;
 }	t_point;
 
 typedef struct s_line{
@@ -104,7 +104,7 @@ typedef struct s_line{
 	int	y_step2;
 }	t_line;
 
-void	draw_line(mlx_image_t *img, t_pixel px1, t_pixel px2);
+void	draw_line(t_meta *m, mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);
 float	**m44_invert(float **input, t_meta *m);
 
@@ -114,6 +114,7 @@ void	free_array(char **arr);
 void	exit_error(char *error_msg, t_meta *m);
 void	*exit_on_null(void *ptr, t_meta *m44_init);
 void	free_meta(t_meta *m);
+void	free_strings_list(t_meta *m);
 
 // MATRIX TRANSFORMATIONS
 
@@ -124,7 +125,7 @@ float	ft_rad(float angle);
 
 // DRAW FUNCTIONS
 
-void	put_pixel_safe(mlx_image_t *img, t_pixel pixel);
+void	put_pixel_safe(t_meta *m, mlx_image_t *img, t_pixel pixel);
 void	draw_raster(t_pixel *map, t_meta *m, mlx_image_t *img);
 void	draw_pixels(t_pixel *pixel, t_meta *m, mlx_image_t *img);
 
