@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/23 00:32:40 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 11:33:14 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_meta{
 	t_color_scheme	color_scheme;
 	char			is_rendered;
 	t_list			*strings;
+	mlx_image_t		*rotations[2];
 }	t_meta;
 
 typedef struct s_pixel{
@@ -114,7 +115,7 @@ void	free_array(char **arr);
 void	exit_error(char *error_msg, t_meta *m);
 void	*exit_on_null(void *ptr, t_meta *m44_init);
 void	free_meta(t_meta *m);
-void	free_strings_list(t_meta *m);
+void	free_strings_list(t_list **list, t_meta *m);
 
 // MATRIX TRANSFORMATIONS
 
@@ -171,7 +172,7 @@ void	translate_world(t_meta *m, float x, float y, float z);
 
 // CAMERA TRANSFORMATIONS
 
-void	update_rotation_var(t_angle *rotation_var, float angle, char axis);
+void	update_rotation_var(t_angle *r_var, float angle, char axis, t_meta *m);
 void	apply_rotate(float ***target, float **rotator, float angle, char axis);
 void	translate_cam(t_meta *m, float x, float y, float z);
 void	rotate_cam(t_meta *m, float angle, char axis);

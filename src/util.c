@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/23 00:25:55 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/23 22:29:01 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	free_array(char **arr)
 	free(arr);
 }
 
-void	free_strings_list(t_meta *m)
+void	free_strings_list(t_list **list, t_meta *m)
 {
 	t_list	*head;
 	t_list	*next;
 
-	head = m->strings;
+	head = *list;
 	while (head)
 	{
 		next = head->next;
@@ -40,7 +40,7 @@ void	free_strings_list(t_meta *m)
 		free (head);
 		head = next;
 	}
-	m->strings = NULL;
+	*list = NULL;
 
 }
 

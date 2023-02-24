@@ -6,20 +6,27 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:38:32 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 22:37:29 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 11:36:37 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	update_rotation_var(t_angle *rotation_var, float angle, char axis)
+void	update_rotation_var(t_angle *r_var, float angle, char axis, t_meta *m)
 {
+	char	rotation_disp[200];
+
 	if (axis == 'x')
-		rotation_var->x += angle;
+		r_var->x += angle;
 	if (axis == 'y')
-		rotation_var->y += angle;
+		r_var->y += angle;
 	if (axis == 'z')
-		rotation_var->z += angle;
+		r_var->z += angle;
+	// mlx_delete_image(m->mlx, m->rotations);
+	// ft_sprintf(rotation_disp, "cam rotation: %.2f %.2f %.2f | world rotation \
+	// %.2f %.2f %.2f", m->cam_rotation.x, m->cam_rotation.y, m->cam_rotation.z, \
+	// m->world_rotation.x, m->world_rotation.y, m->world_rotation.z);
+	// m->rotations = mlx_put_string(m->mlx, rotation_disp, 50, m->window_h - 30);
 }
 
 void	apply_rotate(float ***target, float **rotator, float angle, char axis)
@@ -40,7 +47,7 @@ void	rotate_cam(t_meta *m, float angle, char axis)
 	apply_rotate(&m->camera, m->transformer, angle, axis);
 	if (m->camera == NULL)
 		exit_error(ERROR_MEM, m);
-	update_rotation_var(&m->cam_rotation, angle, axis);
+	update_rotation_var(&m->cam_rotation, angle, axis, m);
 	create_new_image(m);
 }
 

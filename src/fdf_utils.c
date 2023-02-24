@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:43:16 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/23 00:32:21 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/23 22:27:23 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ t_meta	*init_meta(char *filename)
 	m->transformer = exit_on_null(m44_init(), m);
 	m->window_w = WIDTH;
 	m->window_h = HEIGHT;
-	m->canvas_w = m->window_w / 100.0;
-	m->canvas_h = m->window_h / 100.0;
+	m->canvas_w = m->window_w / 200.0;
+	m->canvas_h = m->window_h / 200.0;
 	// ft_printf("canvas h: %f\n", m->canvas_h);
 	return (m);
 }

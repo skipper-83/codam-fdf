@@ -6,14 +6,29 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/23 01:21:20 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 11:36:17 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <errno.h>
 
+void	update_rotation_disp(t_meta *m)
+{
+	char 		rotation_disp[200];
+	static int	old_img;
+	int			new_img;
 
+	new_img	= 0;
+	if (old_img == 0)
+		new_img = 1;
+	ft_sprintf(rotation_disp, "cam rotation: %.2f %.2f %.2f | world rotation \
+	%.2f %.2f %.2f", m->cam_rotation.x, m->cam_rotation.y, m->cam_rotation.z, \
+	m->world_rotation.x, m->world_rotation.y, m->world_rotation.z);
+	m->rotations[new_img] = mlx_put_string(m->mlx, rotation_disp, 50, m->window_h - 30);
+	mlx_delete_image(m->mlx, m->rotations[old_img]);
+	old_img = new_img;
+}
 
 void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view, float p)
 {
@@ -40,6 +55,7 @@ void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view, float p)
 	}
 	if (draw)
 		create_new_image(m);
+	update_rotation_disp(m);
 	m->mouse_x = x_now;
 	m->mouse_y = y_now;
 }
@@ -109,7 +125,7 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 				y_pos = 50;
 				parse_file(m);
 				m->is_rendered = 1;
-				free_strings_list(m);
+				free_strings_list(&m->strings, m);
 				create_new_image(m);
 				m->strings = ft_lstnew(mlx_put_string(m->mlx, "CONTROLS", x_pos, y_pos));
 				ft_lstadd_front(&m->strings, ft_lstnew(mlx_put_string(m->mlx, "x/y rotate: mouse [+ CMD]", x_pos, y_pos + 30)));
@@ -126,8 +142,7 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 				img = (mlx_image_t *)m->strings->content;
 				ft_memset(img->pixels, 0xFFFFFF44, 290 * 250 * sizeof(int));
 				mlx_image_to_window(m->mlx, img, x_pos - 10, y_pos - 8);
-
-				
+				update_rotation_disp(m);
 			}
 		}
 		if (mod == 8)
@@ -181,7 +196,7 @@ int32_t	main(int argc, char **argv)
 	mlx_key_hook(m->mlx, handle_key, m);
 	mlx_loop_hook(m->mlx, frame_hook, m);
 	mlx_loop(m->mlx);
-	free_strings_list(m);
+	free_strings_list(&m->strings, m);
 	mlx_terminate(m->mlx);
 	free_meta(m);
 
