@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 23:04:27 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 23:56:50 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	add_point(t_meta *m, int x, int y, char **point_arr)
 		m->max_z = point->z;
 	if (point->z < m->min_z)
 		m->min_z = point->z;
-	// point->m = m;
 	new = exit_on_null(ft_lstnew(point), m);
 	ft_lstadd_front(&(m->points), new);
 }
@@ -72,20 +71,6 @@ static void	parse_line(char *line, int y, t_meta *m)
 		exit_error(ERROR_MAP_SQUARE, m);
 }
 
-void	apply_color_scheme(t_meta *m, int (*scheme)(float z))
-{
-	t_list	*head;
-	t_point	*point;
-
-	head = m->points;
-	while (head)
-	{
-		point = (t_point *)head->content;
-		point->color = scheme(point->z);
-		head = head->next;
-	}
-}
-
 void	spread_drawing(t_meta *m)
 {
 	t_list		*head;
@@ -104,13 +89,6 @@ void	spread_drawing(t_meta *m)
 		head = head->next;
 	}
 	reset_cam(m);
-	// coeff = m->drawing_w;
-	// if (m->drawing_d * .3 > m->drawing_w)
-	// 	coeff = m->drawing_d * .3;
-	// apply_rotate(&m->camera, m->transformer, 180, 'x');
-	// apply_rotate(&m->camera, m->transformer, 135, 'z');
-	// m44_translate(m->camera, 0, 0, (coeff) * 1.8);
-	// // apply_color_scheme(m, weird_purple_colors);
 }
 
 void	parse_file(t_meta *m)

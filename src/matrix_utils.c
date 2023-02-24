@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:32:58 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 15:45:35 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/24 23:21:48 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ float	**m44_copy(float **matrix)
 	rows = 0;
 	cols = 0;
 	res = m44_init();
+	if (res == NULL)
+		return (NULL);
 	while (rows < 4)
 	{
 		while (cols < 4)
@@ -110,6 +112,8 @@ float	**m44_dot_product(float **m1, float **m2, int free_m1)
 	int		cols;
 
 	product = m44_init();
+	if (product == NULL)
+		return (NULL);
 	rows = 0;
 	cols = 0;
 	while (rows < 4)

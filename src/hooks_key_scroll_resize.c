@@ -6,11 +6,26 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:53:51 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/23 00:14:20 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 23:36:18 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static void	handle_key2(mlx_key_data_t keydata, t_meta *m)
+{
+	if (keydata.key == MLX_KEY_0 && keydata.action == MLX_PRESS)
+		reset_cam(m);
+	if (keydata.key == MLX_KEY_C && keydata.action == MLX_PRESS)
+		cycle_colorschemes(m);
+	if (keydata.key == MLX_KEY_H && keydata.action == MLX_PRESS)
+	{
+		if (m->chrome == CHROME)
+			remove_chrome(m);
+		else
+			draw_chrome(m);
+	}
+}
 
 void	handle_key(mlx_key_data_t keydata, void *param)
 {
@@ -34,10 +49,7 @@ void	handle_key(mlx_key_data_t keydata, void *param)
 			m->fade_alpha = 1;
 		create_new_image(m);
 	}
-	if (keydata.key == MLX_KEY_0 && keydata.action == MLX_PRESS)
-		reset_cam(m);
-	if (keydata.key == MLX_KEY_C && keydata.action == MLX_PRESS)
-		cycle_colorschemes(m);
+	handle_key2(keydata, m);
 }
 
 void	handle_scroll(double xdelta, double ydelta, void *param)
@@ -60,5 +72,10 @@ void	handle_resize(int width, int height, void *param)
 	m->window_w = width;
 	m->canvas_h = height / 100.0;
 	m->canvas_w = width / 100.0;
+	if (m->chrome == CHROME)
+	{
+		remove_chrome(m);
+		draw_chrome(m);
+	}
 	create_new_image(m);
 }

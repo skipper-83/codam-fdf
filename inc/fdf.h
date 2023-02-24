@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 12:21:45 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/24 23:56:41 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define FREE_M1 1
 # define PERSPECTIVE 0
 # define PARALLEL 1
+# define CHROME 0
+# define NO_CHROME 1
 
 typedef struct s_angle
 {
@@ -77,6 +79,7 @@ typedef struct s_meta{
 	char			is_rendered;
 	t_list			*strings;
 	mlx_image_t		*rotations[2];
+	char			chrome;
 }	t_meta;
 
 typedef struct s_pixel{
@@ -104,8 +107,6 @@ typedef struct s_line{
 	int	x_step2;
 	int	y_step2;
 }	t_line;
-
-void	update_rotation_disp(t_meta *m);
 
 void	draw_line(t_meta *m, mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);
@@ -186,11 +187,22 @@ void	handle_key(mlx_key_data_t keydata, void *param);
 void	handle_scroll(double xdelta, double ydelta, void *param);
 void	handle_resize(int width, int height, void *param);
 
+void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *prm);
+void	frame_hook(void *param);
+
+
 // COLOR SCHEMES
 
 int		weird_purple_colors(float z);
 int		minecraft_colors(float z);
 void	fade_alpha_with_z(t_point p, t_pixel *px);
 void	cycle_colorschemes(t_meta *m);
+void	apply_color_scheme(t_meta *m, int (*scheme)(float z));
+
+// CHROME
+
+void	update_rotation_disp(t_meta *m);
+void	draw_chrome(t_meta *m);
+void	remove_chrome(t_meta *m);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/23 22:29:01 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 23:57:55 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	free_array(char **arr)
 	int	i;
 
 	i = 0;
+	if (arr == NULL)
+		return ;
 	while (arr[i])
 	{
 		free(arr[i]);
@@ -41,7 +43,6 @@ void	free_strings_list(t_list **list, t_meta *m)
 		head = next;
 	}
 	*list = NULL;
-
 }
 
 void	free_meta(t_meta *m)
@@ -62,8 +63,9 @@ void	free_meta(t_meta *m)
 	if (m->point_arr)
 	{
 		free_array(m->point_arr);
-		m->line_arr = NULL;
+		m->point_arr = NULL;
 	}
+	free_strings_list(&m->strings, m);
 	ft_lstclear(&(m->points), free);
 	free(m);
 }

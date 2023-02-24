@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:58:20 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/23 00:30:17 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 23:18:29 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_pixel	*points_to_pixels(t_meta *m)
 	float	**inverse;
 
 	head = m->points;
-	res = malloc(sizeof(t_pixel) * (m->total_px));
+	res = exit_on_null(malloc(sizeof(t_pixel) * (m->total_px)), m);
 	i = m->total_px - 1;
 	inverse = exit_on_null(m44_invert(m->camera, m), m);
 	m44_free(m->transformer);

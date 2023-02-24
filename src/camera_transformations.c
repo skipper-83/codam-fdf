@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_transformations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:38:32 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 12:38:23 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/24 23:22:28 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ void	update_rotation_var(t_angle *r_var, float angle, char axis, t_meta *m)
 		r_var->y += angle;
 	if (axis == 'z')
 		r_var->z += angle;
-	// update_rotation_disp(m);
-	// mlx_delete_image(m->mlx, m->rotations);
-	// ft_sprintf(rotation_disp, "cam rotation: %.2f %.2f %.2f | world rotation \
-	// %.2f %.2f %.2f", m->cam_rotation.x, m->cam_rotation.y, m->cam_rotation.z, \
-	// m->world_rotation.x, m->world_rotation.y, m->world_rotation.z);
-	// m->rotations = mlx_put_string(m->mlx, rotation_disp, 50, m->window_h - 30);
 }
 
 void	apply_rotate(float ***target, float **rotator, float angle, char axis)
@@ -63,7 +57,7 @@ void	reset_cam(t_meta *m)
 	if (m->projection == PARALLEL)
 		z_rotate = 315;
 	apply_rotate(&m->camera, m->transformer, 180, 'x');
-	m->cam_rotation.x = 180;
+	m->cam_rotation.x = 0;
 	apply_rotate(&m->camera, m->transformer, z_rotate, 'z');
 	m->cam_rotation.z = z_rotate;
 	coeff = m->drawing_w;
