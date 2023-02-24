@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:13:48 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/25 00:00:19 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/25 00:13:30 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ void	apply_color_scheme(t_meta *m, int (*scheme)(float z))
 
 void	cycle_colorschemes(t_meta *m)
 {
-	static const t_color_scheme	schemes[3] = {
+	static const t_color_scheme	schemes[4] = {
 		weird_purple_colors,
 		minecraft_colors,
+		atlas_colors,
 		NULL
 	};
 	static int					selector;

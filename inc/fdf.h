@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 23:56:41 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/25 00:13:17 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,7 @@ void	frame_hook(void *param);
 
 int		weird_purple_colors(float z);
 int		minecraft_colors(float z);
+int		atlas_colors(float z);
 void	fade_alpha_with_z(t_point p, t_pixel *px);
 void	cycle_colorschemes(t_meta *m);
 void	apply_color_scheme(t_meta *m, int (*scheme)(float z));

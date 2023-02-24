@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 00:00:26 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/25 00:00:31 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/25 00:16:58 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,33 @@ int	weird_purple_colors(float z)
 	return (0x3F3A63FF);
 }
 
+int	atlas_colors(float z)
+{
+	if (z > 100)
+		return (0xe5c7bcff);
+	if (z > 75)
+		return (0xf1c9b0ff);
+	if (z > 50)
+		return (0xf3d7a2ff);
+	if (z > 25)
+		return (0xfcfbbdff);
+	if (z > 15)
+		return (0xfff7e4ff);
+	if (z > 10)
+		return (0xdfeeddff);
+	if (z > 5)
+		return (0xd4e6deff);
+	if (z > 0)
+		return (0xb4dacdff);
+	if (z > -10)
+		return (0x93c1b6ff);
+	if (z > -20)
+		return (0x84b9aeff);
+	if (z > -50)
+		return (0x4fad93ff);
+	return (0xecefe8ff);
+}
+
 int	minecraft_colors(float z)
 {
 	if (z > 70)
@@ -61,3 +88,4 @@ int	minecraft_colors(float z)
 		return (0x3D497CFF);
 	return (0x05093dFF);
 }
+
