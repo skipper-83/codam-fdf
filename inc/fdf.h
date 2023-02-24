@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 11:33:14 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 12:21:45 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ typedef struct s_line{
 	int	x_step2;
 	int	y_step2;
 }	t_line;
+
+void	update_rotation_disp(t_meta *m);
 
 void	draw_line(t_meta *m, mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);

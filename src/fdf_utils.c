@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:43:16 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/23 22:27:23 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 12:31:03 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	create_new_image(t_meta *m)
 	draw_pixels(map, m, new);
 	draw_raster(map, m, new);
 	mlx_image_to_window(m->mlx, new, 0, 0);
+	mlx_set_instance_depth(&new->instances[0], -1);
+	update_rotation_disp(m);
 	if (m->img)
 		mlx_delete_image(m->mlx, m->img);
 	free(map);

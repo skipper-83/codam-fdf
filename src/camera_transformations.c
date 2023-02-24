@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_transformations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:38:32 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 11:36:37 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 12:38:23 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	update_rotation_var(t_angle *r_var, float angle, char axis, t_meta *m)
 		r_var->y += angle;
 	if (axis == 'z')
 		r_var->z += angle;
+	// update_rotation_disp(m);
 	// mlx_delete_image(m->mlx, m->rotations);
 	// ft_sprintf(rotation_disp, "cam rotation: %.2f %.2f %.2f | world rotation \
 	// %.2f %.2f %.2f", m->cam_rotation.x, m->cam_rotation.y, m->cam_rotation.z, \
@@ -69,5 +70,9 @@ void	reset_cam(t_meta *m)
 	if (m->drawing_d * .3 > m->drawing_w)
 		coeff = m->drawing_d * .3;
 	m44_translate(m->camera, 0, 0, (coeff) * 1.8);
+	m->cam_rotation.y = 0;
+	m->world_rotation.x = 0;
+	m->world_rotation.y = 0;
+	m->world_rotation.z = 0;
 	create_new_image(m);
 }

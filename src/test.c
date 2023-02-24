@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/24 11:36:17 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/24 12:36:51 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ void	update_rotation_disp(t_meta *m)
 	new_img	= 0;
 	if (old_img == 0)
 		new_img = 1;
-	ft_sprintf(rotation_disp, "cam rotation: %.2f %.2f %.2f | world rotation \
-	%.2f %.2f %.2f", m->cam_rotation.x, m->cam_rotation.y, m->cam_rotation.z, \
+	ft_sprintf(rotation_disp, "cam rotation: % 7.2fx % 7.2fy % 7.2fz | world rotation \
+	% 7.2fx % 7.2fy % 7.2fz", m->cam_rotation.x, m->cam_rotation.y, m->cam_rotation.z, \
 	m->world_rotation.x, m->world_rotation.y, m->world_rotation.z);
-	m->rotations[new_img] = mlx_put_string(m->mlx, rotation_disp, 50, m->window_h - 30);
+	m->rotations[new_img] = mlx_put_string(m->mlx, rotation_disp, 30, m->window_h - 30);
+	mlx_set_instance_depth(&m->rotations[new_img]->instances[0], 10);
 	mlx_delete_image(m->mlx, m->rotations[old_img]);
 	old_img = new_img;
 }
@@ -55,7 +56,7 @@ void	mouse_rotate(t_meta *m, t_angle *rotation_axis, float ***view, float p)
 	}
 	if (draw)
 		create_new_image(m);
-	update_rotation_disp(m);
+	// update_rotation_disp(m);
 	m->mouse_x = x_now;
 	m->mouse_y = y_now;
 }
@@ -111,6 +112,8 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 	static int		count;
 
 	m = (t_meta *)param;
+	// if (b == MLX_MOUSE_BUTTON_LEFT && a == MLX_RELEASE)
+	// 	update_rotation_disp(m);
 	if (b == MLX_MOUSE_BUTTON_LEFT && a == MLX_PRESS)
 	{
 		if (mod == 0)
@@ -142,6 +145,7 @@ void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *param)
 				img = (mlx_image_t *)m->strings->content;
 				ft_memset(img->pixels, 0xFFFFFF44, 290 * 250 * sizeof(int));
 				mlx_image_to_window(m->mlx, img, x_pos - 10, y_pos - 8);
+				mlx_set_instance_depth(&img->instances[0], 0);
 				update_rotation_disp(m);
 			}
 		}
