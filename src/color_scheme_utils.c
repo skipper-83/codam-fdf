@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:13:48 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/25 00:13:30 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/25 23:42:18 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	cycle_colorschemes(t_meta *m)
 
 	m->color_scheme = schemes[selector];
 	selector++;
-	if (selector == 3)
+	if (selector == 4)
 		selector = 0;
 	create_new_image(m);
 }
@@ -50,7 +50,7 @@ void	fade_alpha_with_z(t_point p, t_pixel *px)
 	int		offset;
 
 	offset = 6;
-	coeff = p.z * 3;
+	coeff = p.z * 2;
 	if (coeff < offset)
 		return ;
 	alpha = 255 - (coeff - offset);

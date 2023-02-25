@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 14:30:28 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/05 23:50:26 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/25 23:35:53 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ void	set_type(char const *input, t_flags *flags, size_t *ilen)
  */
 void	set_precision_type(char const *input, t_flags *flags, size_t *ilen)
 {
-	// int	i;
-
-	// i = 0;
 	if (input[*ilen] == '.')
 	{
 		flags->dot = 1;

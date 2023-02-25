@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 00:00:26 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/25 00:16:58 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/25 23:38:07 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,3 @@ int	minecraft_colors(float z)
 		return (0x3D497CFF);
 	return (0x05093dFF);
 }
-
