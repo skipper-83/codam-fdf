@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   hooks_key_scroll_resize.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:53:51 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 23:36:18 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/26 14:29:20 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	handle_resize(int width, int height, void *param)
 	m = (t_meta *)param;
 	m->window_h = height;
 	m->window_w = width;
-	m->canvas_h = height / 100.0;
 	m->canvas_w = width / 100.0;
+	m->canvas_h = height / 100.0;
 	if (m->chrome == CHROME)
 	{
 		remove_chrome(m);

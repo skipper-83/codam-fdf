@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 00:00:26 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/25 23:38:07 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/26 14:21:54 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,33 @@ int	weird_purple_colors(float z)
 	if (z > -50)
 		return (0x5E3C65FF);
 	return (0x3F3A63FF);
+}
+
+int	rainbow(float z)
+{
+	if (z > 100)
+		return (0xff0000ff);
+	if (z > 75)
+		return (0xff8000ff);
+	if (z > 50)
+		return (0xffff00ff);
+	if (z > 25)
+		return (0x80ff00ff);
+	if (z > 15)
+		return (0x00ff00ff);
+	if (z > 10)
+		return (0x00ff80ff);
+	if (z > 5)
+		return (0x00ffffff);
+	if (z > 0)
+		return (0x0080ffff);
+	if (z > -10)
+		return (0x0000ffff);
+	if (z > -20)
+		return (0x8000ffff);
+	if (z > -50)
+		return (0xff00ffff);
+	return (0xff0080ff);
 }
 
 int	atlas_colors(float z)
