@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 23:56:50 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 16:04:30 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	spread_drawing(t_meta *m)
 	float		coeff;
 
 	coeff = 5 + (m->drawing_d / m->drawing_w);
-	m44_scale(m->transformer, coeff, coeff, 1);
+	m44_scale(m->transformer, coeff, coeff, 0.8);
 	m44_translate(m->transformer, -((m->drawing_w * coeff) / 2) - 1, \
 									-((m->drawing_h * coeff) / 2) - 1, 0);
 	head = m->points;

@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:43:16 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 23:50:01 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 14:55:33 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_meta	*init_meta(char *filename)
 	m->world = exit_on_null(m44_init(), m);
 	m->camera = exit_on_null(m44_init(), m);
 	m->transformer = exit_on_null(m44_init(), m);
+	m->projection = PARALLEL;
 	m->window_w = WIDTH;
 	m->window_h = HEIGHT;
 	m->canvas_w = m->window_w / 200.0;

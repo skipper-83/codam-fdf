@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:13:48 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/26 14:22:30 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 14:35:57 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	fade_alpha_with_z(t_point p, t_pixel *px)
 	float	coeff;
 	int		offset;
 
-	offset = 6;
-	coeff = p.z * 3;
+	offset = 1;
+	coeff = p.z * 0.5;
 	if (coeff < offset)
 		return ;
 	alpha = 255 - (coeff - offset);

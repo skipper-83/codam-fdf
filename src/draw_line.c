@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:59 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/23 00:21:32 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 14:32:37 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void	draw_line(t_meta *m, mlx_image_t *img, t_pixel px1, t_pixel px2)
 
 	if ((px1.x == px2.x && px1.y == px2.y) || !px1.enabled || !px2.enabled)
 		return ;
-	if (px1.y > HEIGHT || px1.x > WIDTH || px1.x < 0 || px1.y < 0)
+	if (px1.y > m->window_h || px1.x > m->window_w || px1.x < 0 || px1.y < 0)
 	{
-		if (px2.x > WIDTH || px2.y > HEIGHT || px2.x < 0 || px2.y < 0)
+		if (px2.x > m->window_w || px2.y > m->window_h \
+									|| px2.x < 0 || px2.y < 0)
 			return ;
 		buf = px1;
 		px1 = px2;
