@@ -6,16 +6,14 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:38:32 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 17:03:20 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:20:33 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	update_rotation_var(t_angle *r_var, float angle, char axis, t_meta *m)
+void	update_rotation_var(t_angle *r_var, float angle, char axis)
 {
-	char	rotation_disp[200];
-
 	if (axis == 'x')
 		r_var->x += angle;
 	if (axis == 'y')
@@ -42,7 +40,7 @@ void	rotate_cam(t_meta *m, float angle, char axis)
 	apply_rotate(&m->camera, m->transformer, angle, axis);
 	if (m->camera == NULL)
 		exit_error(ERROR_MEM, m);
-	update_rotation_var(&m->cam_rotation, angle, axis, m);
+	update_rotation_var(&m->cam_rotation, angle, axis);
 	create_new_image(m);
 }
 

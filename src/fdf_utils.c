@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:43:16 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 17:30:28 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:21:17 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ t_meta	*init_meta(char *filename)
  */
 void	create_new_image(t_meta *m)
 {
-	t_list		*head;
 	t_pixel		*map;
-	t_point		*point;
 	mlx_image_t	*new;
 
 	new = mlx_new_image(m->mlx, m->window_w, m->window_h);

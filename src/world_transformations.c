@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:32:44 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 21:33:19 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:20:53 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	rotate_world(t_meta *m, float angle, char axis)
 	apply_rotate(&m->world, m->transformer, angle, axis);
 	if (m->world == NULL)
 		exit_error(ERROR_MEM, m);
-	update_rotation_var(&m->world_rotation, angle, axis, m);
+	update_rotation_var(&m->world_rotation, angle, axis);
 	create_new_image(m);
 }
 

@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:53:51 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 16:59:07 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:21:38 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	handle_scroll(double xdelta, double ydelta, void *param)
 {
 	t_meta	*m;
 
+	(void)xdelta;
 	m = (t_meta *)param;
 	if (mlx_is_key_down(m->mlx, MLX_KEY_LEFT_SUPER))
 		translate_cam(m, 0, 0, (float)ydelta / 10.0);

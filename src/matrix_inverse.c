@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_inverse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:09:52 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/22 15:46:42 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/02/27 22:17:39 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ static void	scale_pivots(float **matrix, float **inverse)
 {
 	int		cols;
 	int		rows;
-	int		i;
 	float	reducer;
 
 	rows = 0;

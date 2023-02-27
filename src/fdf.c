@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/27 22:09:02 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:17:03 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv)
 
 	errno = 0;
 	if (argc != 2)
-		exit_error(ERROR_NO_MAP, m);
+		exit_error(ERROR_NO_MAP, NULL);
 	m = init_meta(argv[1]);
 	welcome_msg(m);
 	mlx_mouse_hook(m->mlx, handle_mouse, m);

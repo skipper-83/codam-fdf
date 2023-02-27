@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:58:20 by avan-and          #+#    #+#             */
-/*   Updated: 2023/02/27 15:04:47 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:19:06 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_pixel	point_to_pixel_parallel(t_point *point, t_meta *m)
 	t_pixel	res;
 	float	x;
 	float	y;
-	float	z;
 
 	copy_point(point, &point_tf);
 	m44_multiply_point(m->transformer, &point_tf);
@@ -64,7 +63,6 @@ t_pixel	point_to_pixel_perspective(t_point *point, t_meta *m)
 	t_pixel	res;
 	float	x;
 	float	y;
-	float	z;
 
 	copy_point(point, &point_transformed);
 	m44_multiply_point(m->transformer, &point_transformed);

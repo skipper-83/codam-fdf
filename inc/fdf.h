@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 21:32:53 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:20:13 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	expand_world(t_meta *m, float z);
 
 // CAMERA TRANSFORMATIONS
 
-void	update_rotation_var(t_angle *r_var, float angle, char axis, t_meta *m);
+void	update_rotation_var(t_angle *r_var, float angle, char axis);
 void	apply_rotate(float ***target, float **rotator, float angle, char axis);
 void	translate_cam(t_meta *m, float x, float y, float z);
 void	rotate_cam(t_meta *m, float angle, char axis);
