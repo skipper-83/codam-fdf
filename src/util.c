@@ -6,12 +6,11 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/24 23:57:55 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 17:32:19 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <errno.h>
 
 void	free_array(char **arr)
 {
@@ -73,10 +72,7 @@ void	free_meta(t_meta *m)
 void	exit_error(char *error_msg, t_meta *m)
 {
 	free_meta(m);
-	if (errno == 0)
 		ft_putendl_fd(error_msg, 2);
-	else
-		perror(error_msg);
 	exit (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:43:16 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 14:55:33 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 17:30:28 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_meta	*init_meta(char *filename)
 
 	m = exit_on_null(ft_calloc(1, sizeof(t_meta)), NULL);
 	m->mlx = mlx_init(WIDTH, HEIGHT, WINDOW_NAME, true);
+	errno = 0;
 	if (m->mlx == NULL)
 		exit_error(ERROR_MLX, m);
 	m->filename = filename;

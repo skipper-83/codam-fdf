@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 22:53:51 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 16:39:23 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 16:59:07 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ static void	handle_key2(mlx_key_data_t keydata, t_meta *m)
 
 static void	execute_projection_change(t_meta *m)
 {
-	int		z_rotate;
-
-	z_rotate = -135;
 	if (m->projection == PARALLEL)
 	{
 		scale_world(m, 1 / (10.0 / m->drawing_w), \
 				1 / (10.0 / m->drawing_w), 1 / (10.0 / m->drawing_w));
 		m44_translate(m->camera, 0, 0, m->drawing_h * 4);
+		apply_rotate(&m->camera, m->transformer, -135, 'z');
 		m->projection = PERSPECTIVE;
 	}
 	else
@@ -52,10 +50,11 @@ static void	execute_projection_change(t_meta *m)
 		scale_world(m, 10.0 / m->drawing_w, \
 				10.0 / m->drawing_w, 10.0 / m->drawing_w);
 		m44_translate(m->camera, 0, 0, m->drawing_h * -4);
-		z_rotate = 135;
+		apply_rotate(&m->camera, m->transformer, 135, 'z');
 		m->projection = PARALLEL;
 	}
-	apply_rotate(&m->camera, m->transformer, z_rotate, 'z');
+	if (m->camera == NULL)
+		exit_error(ERROR_MEM, m);
 	create_new_image(m);
 }
 

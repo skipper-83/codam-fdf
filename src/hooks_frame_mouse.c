@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,37 +7,47 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 23:37:30 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 15:14:56 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 17:03:38 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+static	void	do_rot(t_meta *m, t_angle angle, float ***view, t_angle *axis)
+{
+	int			draw;
+
+	draw = 0;
+	if (m->mouse_x && angle.x)
+	{
+		axis->x += angle.x;
+		apply_rotate(view, m->transformer, angle.x, 'x');
+		draw = 1;
+	}
+	if (view == NULL)
+		exit_error(ERROR_MEM, m);
+	if (m->mouse_y && angle.y)
+	{
+		axis->y += angle.y;
+		apply_rotate(view, m->transformer, angle.y, 'y');
+		draw = 1;
+	}
+	if (view == NULL)
+		exit_error(ERROR_MEM, m);
+	if (draw)
+		create_new_image(m);
+}
+
 static void	mouse_rotate(t_meta *m, t_angle *rot_axis, float ***view, float p)
 {
 	int			x_now;
 	int			y_now;
-	int			draw;
 	t_angle		angle;
 
-	draw = 0;
 	mlx_get_mouse_pos(m->mlx, &x_now, &y_now);
 	angle.x = (y_now - m->mouse_y) / p;
 	angle.y = -(x_now - m->mouse_x) / p;
-	if (m->mouse_x && angle.x)
-	{
-		rot_axis->x += angle.x;
-		apply_rotate(view, m->transformer, angle.x, 'x');
-		draw = 1;
-	}
-	if (m->mouse_y && angle.y)
-	{
-		rot_axis->y += angle.y;
-		apply_rotate(view, m->transformer, angle.y, 'y');
-		draw = 1;
-	}
-	if (draw)
-		create_new_image(m);
+	do_rot(m, angle, view, rot_axis);
 	m->mouse_x = x_now;
 	m->mouse_y = y_now;
 }

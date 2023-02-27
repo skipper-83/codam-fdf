@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:38:32 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 16:37:51 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 17:03:20 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,24 @@ void	rotate_cam(t_meta *m, float angle, char axis)
 
 void	reset_cam(t_meta *m)
 {
-	float	z_rotate;
-
-	z_rotate = 90;
 	m44_to_identity_matrix(m->world);
 	m44_to_identity_matrix(m->camera);
 	if (m->projection == PARALLEL)
+	{
 		scale_world(m, 10.0 / m->drawing_w, \
 					10.0 / m->drawing_w, 10.0 / m->drawing_w);
+		apply_rotate(&m->camera, m->transformer, 90, 'z');
+	}
 	else
 	{
 		m44_translate(m->camera, 0, 0, m->drawing_h * -4);
-		z_rotate += 135;
+		apply_rotate(&m->camera, m->transformer, 225, 'z');
 	}
-	apply_rotate(&m->camera, m->transformer, z_rotate, 'z');
+	if (m->camera == NULL)
+		exit_error(ERROR_MEM, m);
 	apply_rotate(&m->camera, m->transformer, 180, 'x');
+	if (m->camera == NULL)
+		exit_error(ERROR_MEM, m);
 	m->cam_rotation.z = -45;
 	m->cam_rotation.x = 0;
 	m->cam_rotation.y = 0;

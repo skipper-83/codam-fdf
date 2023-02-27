@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/26 14:22:55 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 17:22:15 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>  // for read
 # include <string.h> // for perror
 # include <math.h>
+# include <errno.h>
 
 # define WINDOW_NAME "FDF"
 # define WIDTH 1024
