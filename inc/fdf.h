@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 17:22:15 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 21:32:53 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ typedef struct s_line{
 	int	y_step2;
 }	t_line;
 
+//	FUNCTIONS WITH THEIR OWN FILE
+
 void	draw_line(t_meta *m, mlx_image_t *img, t_pixel px1, t_pixel px2);
 void	parse_file(t_meta *m);
 float	**m44_invert(float **input, t_meta *m);
@@ -173,6 +175,7 @@ float	**m44_arr_to_pointer(float matrix[][4]);
 void	rotate_world(t_meta *m, float angle, char axis);
 void	scale_world(t_meta *m, float x, float y, float z);
 void	translate_world(t_meta *m, float x, float y, float z);
+void	expand_world(t_meta *m, float z);
 
 // CAMERA TRANSFORMATIONS
 

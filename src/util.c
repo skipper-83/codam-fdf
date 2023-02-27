@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:44:37 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 17:32:19 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 21:27:47 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	free_meta(t_meta *m)
 void	exit_error(char *error_msg, t_meta *m)
 {
 	free_meta(m);
-		ft_putendl_fd(error_msg, 2);
+	ft_putendl_fd(error_msg, 2);
 	exit (1);
 }
 

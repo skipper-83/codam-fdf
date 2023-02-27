@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard          #+#    #+#             */
-/*   Updated: 2023/02/27 17:31:00 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:09:02 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	welcome_msg(t_meta *m)
 {
 	mlx_image_t	*msg;
 
-	msg = mlx_put_string(m->mlx, "Left click to start", \
-					m->window_w / 2 - 100, m->window_h / 2 - 20);
+	msg = mlx_put_string(m->mlx, "click to start", \
+					m->window_w / 2 - 70, m->window_h / 2 - 20);
 	if (msg == NULL)
 		exit_error(ERROR_MLX, m);
 	m->strings = ft_lstnew(msg);

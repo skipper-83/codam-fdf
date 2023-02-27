@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 23:37:30 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 17:03:38 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 21:34:11 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +58,9 @@ static void	frame_hook2(t_meta *m)
 	if (mlx_is_key_down(m->mlx, MLX_KEY_RIGHT_BRACKET))
 		rotate_world(m, -1, 'z');
 	if (mlx_is_key_down(m->mlx, MLX_KEY_MINUS))
-		scale_world(m, 1, 1, .99);
+		expand_world(m, 0.99);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_EQUAL))
-		scale_world(m, 1, 1, 1.01);
+		expand_world(m, 1.01);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_W))
 		translate_cam(m, 0, -.1, 0);
 	if (mlx_is_key_down(m->mlx, MLX_KEY_S))

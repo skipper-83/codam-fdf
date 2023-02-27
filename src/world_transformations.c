@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:32:44 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 16:57:41 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 21:33:19 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,20 @@ void	scale_world(t_meta *m, float x, float y, float z)
 void	translate_world(t_meta *m, float x, float y, float z)
 {
 	m44_translate(m->world, x, y, z);
+	create_new_image(m);
+}
+
+void	expand_world(t_meta *m, float z)
+{
+	t_list	*head;
+	t_point	*point;
+
+	head = m->points;
+	while (head)
+	{
+		point = (t_point *)head->content;
+		point->z *= z;
+		head = head->next;
+	}
 	create_new_image(m);
 }

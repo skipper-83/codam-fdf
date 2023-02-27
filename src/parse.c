@@ -6,7 +6,7 @@
 /*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 10:41:20 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 17:30:41 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/02/27 22:00:45 by albertvanan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	parse_file(t_meta *m)
 		y++;
 	}
 	close(fd);
+	if (y == 0 || m->drawing_w == 0)
+		exit_error(ERROR_MAP_CORRUPT, m);
 	m->drawing_h = y;
 	m->drawing_d = m->max_z - m->min_z;
 	m->total_px = m->drawing_h * m->drawing_w;
