@@ -6,7 +6,7 @@
 /*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/03/01 10:58:18 by avan-and         ###   ########.fr       */
+/*   Updated: 2023/03/01 12:46:12 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,6 @@ void	handle_resize(int width, int height, void *param);
 
 void	handle_mouse(mouse_key_t b, action_t a, modifier_key_t mod, void *prm);
 void	frame_hook(void *param);
-
 
 // COLOR SCHEMES
 

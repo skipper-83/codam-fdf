@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 12:21:40 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 22:01:51 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/03/01 12:51:40 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # define ERROR_MAP_SQUARE "Map not rectangular"
 # define ERROR_MAP_NUMBERS "Map does not contain all numbers"
 # define ERROR_MLX "Error in MLX42 function"
-# define ERROR_NO_MAP "No map provided! Usage: ./fdf [PATH_TO_MAP]"
-# define ERROR_PATH "Path to map is corrupt!"
+# define ERROR_NO_MAP "Wrong argument count! Usage: ./fdf [PATH_TO_MAP]"
+# define ERROR_PATH "Unable to open map file. Please check \
+path and file permissions"
 # define ERROR_MAP_CORRUPT "Map file is corrupt!"
 
 #endif
