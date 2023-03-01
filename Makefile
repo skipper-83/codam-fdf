@@ -52,6 +52,7 @@ clean			:
 fclean			: clean
 				@echo Cleaning fdf executable
 				@$(RM) $(NAME)
+				@$(RM) ${MLXLIB}
 				@$(MAKE) -C $(LIBDIR) fclean
 				@$(MAKE) -C $(MLXDIR) clean
 
