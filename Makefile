@@ -20,11 +20,13 @@ NAME			= fdf
 
 CC				= cc
 CCFLAGS			= -Wall -Werror -Wextra
-MLXFLAGS		= -framework Cocoa -framework IOKit -framework OpenGL -lglfw
+MLXFLAGS		= -framework Cocoa -framework IOKit -framework OpenGL -lglfw3
 
 RM				= rm -rf
 
 all				: $(NAME)
+
+bonus			: all
 
 $(NAME)			: $(LIB) $(MLXLIB) $(OBJS)
 				@$(CC) $(CCFLAGS) $(MLXFLAGS) $(OBJS) $(MLXLIB) $(LIB) -o $(NAME)

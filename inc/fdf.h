@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albertvanandel <albertvanandel@student.    +#+  +:+       +#+        */
+/*   By: avan-and <avan-and@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 22:16:24 by albertvanan       #+#    #+#             */
-/*   Updated: 2023/02/27 22:20:13 by albertvanan      ###   ########.fr       */
+/*   Updated: 2023/03/01 10:58:18 by avan-and         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,9 @@
 # include <errno.h>
 
 # define WINDOW_NAME "FDF"
-# define WIDTH 1024
-# define HEIGHT 768
+# define WIDTH 1200
+# define HEIGHT 800
 # define MARGIN 60
-// # define CANVAS_H 10
-// # define CANVAS_W 7.68
 
 # define DEFAULT_COLOR 0xFFFFFFFF
 
